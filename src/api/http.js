@@ -1,6 +1,17 @@
 const BASE = import.meta.env.VITE_API_URL ?? ''
+import { useLoadingStore } from '../stores/loading'
 const TIMEOUT_MS = 75000 // supaya server Render yang baru bangun tidak diputus
 const KUNCI_SESI = 'authSession'
+const PESAN_METODE = {
+  GET: 'Memuat data...',
+  POST: 'Menyimpan data...',
+  PATCH: 'Menyimpan perubahan...',
+  PUT: 'Menyimpan perubahan...',
+  DELETE: 'Menghapus data...',
+}
+const PESAN_PATH = {
+  '/api/auth/admin/login': 'Masuk ke akun...',
+}
 
 export class ApiError extends Error {
   constructor(status, message, data) {
@@ -18,7 +29,9 @@ function ambilToken() {
   }
 }
 
-export async function api(path, { method = 'GET', body, auth = true } = {}) {
+export async function api(path, { method = 'GET', body, auth = true, loading = true, pesan } = {}) {
+  const modal = loading ? useLoadingStore() : null
+  modal?.mulai(pesan ?? PESAN_PATH[path] ?? PESAN_METODE[method] ?? 'Memuat data...')
   const headers = {}
   const isForm = body instanceof FormData
   if (body && !isForm) headers['Content-Type'] = 'application/json'
@@ -46,6 +59,7 @@ export async function api(path, { method = 'GET', body, auth = true } = {}) {
     )
   } finally {
     clearTimeout(timer)
+    modal?.selesai()
   }
 
   let data = null
