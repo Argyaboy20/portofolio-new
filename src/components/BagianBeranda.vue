@@ -31,7 +31,7 @@ onBeforeUnmount(() => pengamat?.disconnect())
 
 <template>
   <section :id="id" ref="el" class="bagian" :class="{ masuk: tampil }">
-    <div class="kepala">
+     <div class="kepala" :class="{ 'ada-aksi': $slots.aksi }">
       <h2 class="judul">{{ judul }}</h2>
       <slot name="aksi" />
     </div>
@@ -88,6 +88,20 @@ onBeforeUnmount(() => pengamat?.disconnect())
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* HP (350 sampai 640px): judul dan tombol aksi satu baris. Di bawah 350px tombol turun ke baris bawah. */
+@media (min-width: 350px) and (max-width: 640px) {
+  .kepala.ada-aksi {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+  .ada-aksi .judul {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: clamp(0.9rem, 4vw, 1.3rem);
+    white-space: nowrap;
   }
 }
 

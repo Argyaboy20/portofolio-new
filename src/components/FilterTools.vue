@@ -33,18 +33,19 @@ const opsi = [
 .filter {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.2rem;
+  gap: 0.1rem;
 }
 .tombol {
-  padding: 0.3rem 0.4rem;
+  padding: 0.3rem 0.3rem;
   font: inherit;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 500;
   color: #4a90e2;
   background: none;
   border: 0;
   border-bottom: 2px solid transparent;
   cursor: pointer;
+  white-space: nowrap;
 }
 .tombol:hover {
   color: #50e3c2;

@@ -25,20 +25,21 @@ const bahasa = useBahasaStore()
 .urut {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.3rem;
+  gap: 0.2rem;
 }
 .tombol {
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  padding: 0.3rem 0.4rem;
+  padding: 0.3rem 0.3rem;
   font: inherit;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: #4a90e2;
   background: none;
   border: 0;
   border-bottom: 2px solid transparent;
   cursor: pointer;
+  white-space: nowrap;
 }
 .tombol:hover {
   color: #50e3c2;
