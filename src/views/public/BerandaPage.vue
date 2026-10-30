@@ -1,8 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { Menu, X } from '@lucide/vue'
 import IkonDinamis from '../../components/IkonDinamis.vue'
+import BagianBeranda from '../../components/BagianBeranda.vue'
+import ProfilSingkat from '../../components/ProfilSingkat.vue'
+import DaftarKeahlian from '../../components/DaftarKeahlian.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -10,10 +13,53 @@ const bahasa = useBahasaStore()
 const beranda = useBerandaStore()
 const menuBuka = ref(false)
 
-onMounted(() => beranda.muat())
+const panelKiri = ref(null)
+const mengecil = ref(false)
+
+const layarKecil = window.matchMedia('(max-width: 767px)') // HP dan tablet: efek aktif
+const layarHP = window.matchMedia('(max-width: 640px)')
+let jadwal = 0
+
+function perbarui() {
+  jadwal = 0
+  const el = panelKiri.value
+  if (!el) return
+  // Desktop: tanpa efek, kembalikan ke keadaan besar
+  if (!layarKecil.matches) {
+    mengecil.value = false
+    el.style.removeProperty('--gulir')
+    return
+  }
+  const y = window.scrollY
+  const ambang = layarHP.matches ? 10 : 100
+  el.style.setProperty('--gulir', String(Math.min(y / ambang, 1)))
+  if (layarHP.matches ? y >= ambang : y > 0) mengecil.value = true
+  // Kembali besar hanya saat benar-benar di paling atas
+  if (y <= 0) mengecil.value = false
+}
+
+function jadwalkan() {
+  if (!jadwal) jadwal = requestAnimationFrame(perbarui)
+}
+
+onMounted(() => {
+  beranda.muat()
+  window.addEventListener('scroll', jadwalkan, { passive: true })
+  layarKecil.addEventListener('change', jadwalkan)
+  layarHP.addEventListener('change', jadwalkan)
+  perbarui()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', jadwalkan)
+  layarKecil.removeEventListener('change', jadwalkan)
+  layarHP.removeEventListener('change', jadwalkan)
+  if (jadwal) cancelAnimationFrame(jadwal)
+})
 
 const profil = computed(() => beranda.data?.profil ?? null)
 const kontak = computed(() => beranda.data?.kontak ?? [])
+const keahlian = computed(() => beranda.data?.keahlian ?? [])
 
 const namaLengkap = computed(() =>
   profil.value ? `${profil.value.nama}${profil.value.gelar ? ', ' + profil.value.gelar : ''}` : '',
@@ -67,37 +113,43 @@ function tautanKontak(k) {
     </header>
 
     <div class="isi">
-      <aside class="panel-kiri">
+      <aside ref="panelKiri" class="panel-kiri" :class="{ mengecil }">
         <template v-if="profil">
-          <div class="foto" aria-hidden="true">
-            <img v-if="profil.fotoUrl" :src="profil.fotoUrl" alt="" />
-            <span v-else>{{ inisial }}</span>
+          <div class="kepala">
+            <div class="foto" aria-hidden="true">
+              <img v-if="profil.fotoUrl" :src="profil.fotoUrl" alt="" />
+              <span v-else>{{ inisial }}</span>
+            </div>
+
+            <div class="info">
+              <h1 class="nama">{{ namaLengkap }}</h1>
+              <p class="jabatan">{{ bahasa.pilih(profil.jabatanId, profil.jabatanEn) }}</p>
+            </div>
+
+            <RouterLink to="/itsupport" class="support">
+              {{ bahasa.pilih(profil.labelSupportId, profil.labelSupportEn) }}
+            </RouterLink>
+
+            <a v-if="profil.cvUrl" class="cv" :href="profil.cvUrl" target="_blank" rel="noopener noreferrer">
+              {{ bahasa.pilih('Lihat CV', 'View CV') }}
+            </a>
           </div>
 
-          <h1 class="nama">{{ namaLengkap }}</h1>
-          <p class="jabatan">{{ bahasa.pilih(profil.jabatanId, profil.jabatanEn) }}</p>
-
-          <RouterLink to="/itsupport" class="support">
-            {{ bahasa.pilih(profil.labelSupportId, profil.labelSupportEn) }}
-          </RouterLink>
-
-          <a v-if="profil.cvUrl" class="cv" :href="profil.cvUrl" target="_blank" rel="noopener noreferrer">
-            {{ bahasa.pilih('Lihat CV', 'View CV') }}
-          </a>
-
           <div class="kontak">
-            <h2>{{ bahasa.pilih('Kontak Pribadi', 'Contact Person') }}</h2>
-            <div class="ikon-kontak">
-              <a
-                v-for="k in kontak"
-                :key="k.id"
-                :href="tautanKontak(k)"
-                :aria-label="k.jenis"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <IkonDinamis :nama="k.jenis" ukuran="1.35rem" />
-              </a>
+            <div class="kontak-isi">
+              <h2>{{ bahasa.pilih('Kontak Pribadi', 'Contact Person') }}</h2>
+              <div class="ikon-kontak">
+                <a
+                  v-for="k in kontak"
+                  :key="k.id"
+                  :href="tautanKontak(k)"
+                  :aria-label="k.jenis"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IkonDinamis :nama="k.jenis" ukuran="1.35rem" />
+                </a>
+              </div>
             </div>
           </div>
         </template>
@@ -109,7 +161,17 @@ function tautanKontak(k) {
       </aside>
 
       <main class="panel-kanan">
-        <p class="menyusul">Bagian konten menyusul.</p>
+        <template v-if="profil">
+          <BagianBeranda id="about" :judul="bahasa.pilih('Profil Singkat', 'Brief Profile')">
+            <ProfilSingkat :profil="profil" />
+          </BagianBeranda>
+
+          <BagianBeranda id="skills" :judul="bahasa.pilih('Keahlian', 'Skills')">
+            <template #default="{ tampil }">
+              <DaftarKeahlian :daftar="keahlian" :tampil="tampil" />
+            </template>
+          </BagianBeranda>
+        </template>
       </main>
     </div>
   </div>
@@ -201,13 +263,28 @@ function tautanKontak(k) {
   display: block;
 }
 .panel-kiri {
+  position: sticky;
+  top: 3.5rem;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
+  padding: calc(1.5rem - 0.8rem * var(--gulir, 0)) 1.5rem;
   color: #fff;
   text-align: center;
   background: #2c3e50;
+  transition: padding 0.4s ease, box-shadow 0.4s ease;
+}
+.kepala {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .foto {
   display: grid;
@@ -222,6 +299,8 @@ function tautanKontak(k) {
   background: linear-gradient(135deg, #4a90e2, #50e3c2);
   border: 3px solid #50e3c2;
   border-radius: 50%;
+  flex-shrink: 0;
+  transition: width 0.4s ease, height 0.4s ease, margin 0.4s ease, font-size 0.4s ease;
 }
 .foto img {
   width: 100%;
@@ -239,10 +318,13 @@ function tautanKontak(k) {
   color: rgba(255, 255, 255, 0.8);
 }
 .support {
+  max-height: 2rem;
   margin-bottom: 0.5rem;
+  overflow: hidden;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
 }
 .support:hover {
   color: #fff;
@@ -260,8 +342,16 @@ function tautanKontak(k) {
   background: rgba(255, 255, 255, 0.15);
 }
 .kontak {
+  display: grid;
+  grid-template-rows: 1fr;
   width: 100%;
   margin-top: 0.8rem;
+  transition: grid-template-rows 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+}
+.kontak-isi {
+  min-height: 0;
+  padding-top: 4px;
+  overflow: hidden;
 }
 .kontak h2 {
   margin: 0 0 0.4rem;
@@ -288,6 +378,75 @@ function tautanKontak(k) {
   background: #4a90e2;
   transform: translateY(-3px);
 }
+/* --- Keadaan mengecil (HP dan tablet saja; JS tidak memasangnya di desktop) --- */
+.panel-kiri.mengecil {
+  padding: 10px 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+.mengecil .kepala {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+}
+.mengecil .foto {
+  width: 45px;
+  height: 45px;
+  margin: 0;
+  font-size: 1rem;
+  border-width: 2px;
+}
+.mengecil .info {
+  flex: 1;
+  min-width: 0;
+  align-items: flex-start;
+  text-align: left;
+}
+.mengecil .nama {
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-size: clamp(12px, 3.8vw, 14px);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mengecil .jabatan {
+  max-width: 100%;
+  margin: 2px 0 0;
+  overflow: hidden;
+  font-size: clamp(9px, 2.8vw, 10px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mengecil .support {
+  flex: 0 0 0;
+  width: 0;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+}
+.mengecil .cv {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 5px 12px;
+  font-size: 10px;
+}
+.mengecil .kontak {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-kiri,
+  .foto,
+  .support,
+  .kontak {
+    transition: none;
+  }
+}
 .galat {
   color: #ffb4b4;
 }
@@ -305,6 +464,9 @@ function tautanKontak(k) {
 @media (min-width: 641px) {
   .judul {
     font-size: 0.9rem;
+  }
+  .panel-kiri {
+    padding: calc(1.75rem - 0.8rem * var(--gulir, 0)) 2rem;
   }
   .foto {
     width: 155px;
