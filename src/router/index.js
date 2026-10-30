@@ -6,6 +6,13 @@ const NAMA_SITUS = "Maulana Farras Blog's"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Halaman baru mulai dari atas. Tautan ber-hash (#kontak) digulirkan oleh halamannya sendiri
+  // setelah data termuat, karena tujuannya baru ada saat itu.
+  scrollBehavior(to, _from, tersimpan) {
+    if (tersimpan) return tersimpan
+    if (to.hash) return false
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -27,6 +34,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Dashboard Admin' },
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
+    {
+      path: '/biodata',
+      name: 'biodata',
+      component: () => import('../views/public/BiodataPage.vue'),
+      meta: { title: 'Biodata' },
+    },
   ],
 })
 

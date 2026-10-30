@@ -21,3 +21,21 @@ body {
   background: #0b0b0b;
   color: #f1f1f1;
 }
+
+/* Animasi muncul sekali saat digulir (dipakai direktif v-muncul) */
+.muncul {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.muncul.masuk {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .muncul {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
