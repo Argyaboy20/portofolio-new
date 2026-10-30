@@ -6,6 +6,7 @@ import IkonDinamis from '../../components/IkonDinamis.vue'
 import BagianBeranda from '../../components/BagianBeranda.vue'
 import ProfilSingkat from '../../components/ProfilSingkat.vue'
 import DaftarKeahlian from '../../components/DaftarKeahlian.vue'
+import DaftarPendidikan from '../../components/DaftarPendidikan.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -60,6 +61,7 @@ onBeforeUnmount(() => {
 const profil = computed(() => beranda.data?.profil ?? null)
 const kontak = computed(() => beranda.data?.kontak ?? [])
 const keahlian = computed(() => beranda.data?.keahlian ?? [])
+const pendidikan = computed(() => beranda.data?.pendidikan ?? [])
 
 const namaLengkap = computed(() =>
   profil.value ? `${profil.value.nama}${profil.value.gelar ? ', ' + profil.value.gelar : ''}` : '',
@@ -164,6 +166,10 @@ function tautanKontak(k) {
         <template v-if="profil">
           <BagianBeranda id="about" :judul="bahasa.pilih('Profil Singkat', 'Brief Profile')">
             <ProfilSingkat :profil="profil" />
+          </BagianBeranda>
+
+          <BagianBeranda v-if="pendidikan.length" id="education" :judul="bahasa.pilih('Pendidikan', 'Education')">
+            <DaftarPendidikan :daftar="pendidikan" />
           </BagianBeranda>
 
           <BagianBeranda id="skills" :judul="bahasa.pilih('Keahlian', 'Skills')">
