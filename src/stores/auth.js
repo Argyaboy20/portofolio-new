@@ -23,10 +23,10 @@ export const useAuthStore = defineStore('auth', {
         localStorage.removeItem(KUNCI_SESI)
       }
     },
-    async login(email, password, kodeAkses) {
+    async login(email, password, kodeAkses, turnstileToken) {
       const data = await api('/api/auth/admin/login', {
         method: 'POST',
-        body: { email, password, kodeAkses },
+        body: { email, password, kodeAkses, turnstileToken },
         auth: false,
       })
       this.token = data.token

@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
+import { buatTurnstile } from '../../utils/turnstile'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -11,12 +12,20 @@ const password = ref('')
 const kodeAkses = ref('')
 const galat = ref('')
 const memproses = ref(false)
+const kotakTurnstile = ref(null)
+let turnstile = null
+
+onMounted(() => {
+  turnstile = buatTurnstile(kotakTurnstile.value)
+})
+onBeforeUnmount(() => turnstile?.hancurkan())
 
 async function masuk() {
   galat.value = ''
   memproses.value = true
   try {
-    await auth.login(email.value.trim(), password.value, kodeAkses.value.trim())
+    const turnstileToken = await turnstile.ambilToken()
+    await auth.login(email.value.trim(), password.value, kodeAkses.value.trim(), turnstileToken)
     router.push('/admin/dashboard')
   } catch (e) {
     galat.value = e.message
@@ -49,6 +58,7 @@ async function masuk() {
         required
       />
 
+      <div ref="kotakTurnstile"></div>
       <p v-if="galat" class="galat">{{ galat }}</p>
 
       <button type="submit" :disabled="memproses">
