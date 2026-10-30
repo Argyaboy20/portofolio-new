@@ -11,6 +11,8 @@ import FilterTools from '../../components/FilterTools.vue'
 import DaftarTools from '../../components/DaftarTools.vue'
 import UrutProject from '../../components/UrutProject.vue'
 import DaftarProject from '../../components/DaftarProject.vue'
+import KartuBeranda from '../../components/KartuBeranda.vue'
+import DaftarPublikasi from '../../components/DaftarPublikasi.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -75,6 +77,10 @@ const projects = computed(() => {
   salinan.sort((a, b) => a.mulai.localeCompare(b.mulai) || a.id - b.id)
   return urutanProject.value === 'newest' ? salinan.reverse() : salinan
 })
+const kartu = computed(() => beranda.data?.kartu ?? {})
+const publikasi = computed(() => beranda.data?.publikasi ?? [])
+const pengaturan = computed(() => beranda.data?.pengaturan ?? null)
+const tahun = new Date().getFullYear()
 
 const namaLengkap = computed(() =>
   profil.value ? `${profil.value.nama}${profil.value.gelar ? ', ' + profil.value.gelar : ''}` : '',
@@ -212,8 +218,25 @@ function tautanKontak(k) {
             </template>
             <DaftarProject :daftar="projects" />
           </BagianBeranda>
+
+          <BagianBeranda v-if="kartu.karir" id="career" :judul="bahasa.pilih('Karir Kedua', 'Second Career')">
+            <KartuBeranda jenis="karir" :kartu="kartu.karir" />
+          </BagianBeranda>
+
+          <BagianBeranda v-if="kartu.relawan" id="volunteer" :judul="bahasa.pilih('Relawan', 'Volunteer')">
+            <KartuBeranda jenis="relawan" :kartu="kartu.relawan" />
+          </BagianBeranda>
+
+          <BagianBeranda v-if="publikasi.length" id="publikasi" :judul="bahasa.pilih('Publikasi', 'Publications')">
+            <DaftarPublikasi :daftar="publikasi" />
+          </BagianBeranda>
         </template>
       </main>
+
+      <footer v-if="pengaturan" class="kaki">
+        <p class="hakcipta">&copy; {{ tahun }} - {{ bahasa.pilih(pengaturan.hakCiptaId, pengaturan.hakCiptaEn) }}</p>
+        <p class="didukung">{{ pengaturan.footerTeks }}</p>
+      </footer>
     </div>
   </div>
 </template>
@@ -501,6 +524,23 @@ function tautanKontak(k) {
 .menyusul {
   color: #777;
 }
+.kaki {
+  text-align: center;
+}
+.hakcipta {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+.didukung {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  background: #000;
+}
 
 @media (min-width: 641px) {
   .judul {
@@ -556,6 +596,18 @@ function tautanKontak(k) {
   }
   .panel-kanan {
     padding: 2rem 2.5rem;
+  }
+  .panel-kiri {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .panel-kanan {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .kaki {
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 
