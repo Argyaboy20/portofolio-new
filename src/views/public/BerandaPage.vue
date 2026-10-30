@@ -9,6 +9,8 @@ import DaftarKeahlian from '../../components/DaftarKeahlian.vue'
 import DaftarPendidikan from '../../components/DaftarPendidikan.vue'
 import FilterTools from '../../components/FilterTools.vue'
 import DaftarTools from '../../components/DaftarTools.vue'
+import UrutProject from '../../components/UrutProject.vue'
+import DaftarProject from '../../components/DaftarProject.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -66,6 +68,13 @@ const keahlian = computed(() => beranda.data?.keahlian ?? [])
 const pendidikan = computed(() => beranda.data?.pendidikan ?? [])
 const tools = computed(() => beranda.data?.tools ?? [])
 const filterTool = ref('all')
+const urutanProject = ref('newest')
+// "YYYY-MM" bisa dibandingkan sebagai teks; selisih bulan sama diurutkan dengan id
+const projects = computed(() => {
+  const salinan = [...(beranda.data?.projects ?? [])]
+  salinan.sort((a, b) => a.mulai.localeCompare(b.mulai) || a.id - b.id)
+  return urutanProject.value === 'newest' ? salinan.reverse() : salinan
+})
 
 const namaLengkap = computed(() =>
   profil.value ? `${profil.value.nama}${profil.value.gelar ? ', ' + profil.value.gelar : ''}` : '',
@@ -191,6 +200,17 @@ function tautanKontak(k) {
               <FilterTools v-model="filterTool" />
             </template>
             <DaftarTools :tools="tools" :filter="filterTool" />
+          </BagianBeranda>
+
+          <BagianBeranda
+            v-if="projects.length"
+            id="projects"
+            :judul="bahasa.pilih('Project Terbaru', 'Latest Projects')"
+          >
+            <template #aksi>
+              <UrutProject v-model="urutanProject" />
+            </template>
+            <DaftarProject :daftar="projects" />
           </BagianBeranda>
         </template>
       </main>
