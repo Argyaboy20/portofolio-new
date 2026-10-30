@@ -7,6 +7,8 @@ import BagianBeranda from '../../components/BagianBeranda.vue'
 import ProfilSingkat from '../../components/ProfilSingkat.vue'
 import DaftarKeahlian from '../../components/DaftarKeahlian.vue'
 import DaftarPendidikan from '../../components/DaftarPendidikan.vue'
+import FilterTools from '../../components/FilterTools.vue'
+import DaftarTools from '../../components/DaftarTools.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -62,6 +64,8 @@ const profil = computed(() => beranda.data?.profil ?? null)
 const kontak = computed(() => beranda.data?.kontak ?? [])
 const keahlian = computed(() => beranda.data?.keahlian ?? [])
 const pendidikan = computed(() => beranda.data?.pendidikan ?? [])
+const tools = computed(() => beranda.data?.tools ?? [])
+const filterTool = ref('all')
 
 const namaLengkap = computed(() =>
   profil.value ? `${profil.value.nama}${profil.value.gelar ? ', ' + profil.value.gelar : ''}` : '',
@@ -176,6 +180,17 @@ function tautanKontak(k) {
             <template #default="{ tampil }">
               <DaftarKeahlian :daftar="keahlian" :tampil="tampil" />
             </template>
+          </BagianBeranda>
+
+          <BagianBeranda
+            v-if="tools.length"
+            id="tools"
+            :judul="bahasa.pilih('Alat dan Teknologi', 'Tools and Technologies')"
+          >
+            <template #aksi>
+              <FilterTools v-model="filterTool" />
+            </template>
+            <DaftarTools :tools="tools" :filter="filterTool" />
           </BagianBeranda>
         </template>
       </main>

@@ -31,7 +31,10 @@ onBeforeUnmount(() => pengamat?.disconnect())
 
 <template>
   <section :id="id" ref="el" class="bagian" :class="{ masuk: tampil }">
-    <h2 class="judul">{{ judul }}</h2>
+    <div class="kepala">
+      <h2 class="judul">{{ judul }}</h2>
+      <slot name="aksi" />
+    </div>
     <div class="isi">
       <slot :tampil="tampil" />
     </div>
@@ -51,9 +54,17 @@ onBeforeUnmount(() => pengamat?.disconnect())
   opacity: 1;
   transform: translateY(0);
 }
+.kepala {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 0.5rem;
+  margin-bottom: 1.2rem;
+}
 .judul {
   position: relative;
-  margin: 0 0 1.2rem;
+  margin: 0;
   font-size: 1.3rem;
   color: #2c3e50;
 }

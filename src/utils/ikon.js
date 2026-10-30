@@ -1,6 +1,8 @@
 import {
   siInstagram, siGithub, siDiscord, siNpm, siIonic, siAngular, siCapacitor,
   siVercel, siLaravel, siReact, siAdonisjs, siPython, siFirebase, siFigma,
+  siJavascript, siTypescript, siHtml5, siPhp, siVuedotjs, siExpress, siSwagger,
+  siPostgresql, siNeon, siMysql, siMariadb, siDocker, siCloudflare, siRender, siApache,
 } from 'simple-icons'
 import {
   Mail, CodeXml, GitBranch, Zap, Map as IkonPeta, Activity, Code, Globe,
@@ -36,6 +38,21 @@ export const IKON = {
   'map-outline': lucide(IkonPeta),
   'pulse-outline': lucide(Activity),
   'code-outline': lucide(Code), // C#
+  javascript: merek(siJavascript),
+  typescript: merek(siTypescript),
+  html5: merek(siHtml5),
+  php: merek(siPhp),
+  vue: merek(siVuedotjs),
+  express: merek(siExpress),
+  'rest-api': merek(siSwagger),
+  postgresql: merek(siPostgresql),
+  neon: merek(siNeon),
+  mysql: merek(siMysql),
+  mariadb: merek(siMariadb),
+  docker: merek(siDocker),
+  cloudflare: merek(siCloudflare),
+  render: merek(siRender),
+  apache: merek(siApache),
 }
 
 // Kunci cadangan bila ikon tidak dikenali
