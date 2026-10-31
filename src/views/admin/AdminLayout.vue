@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { ExternalLink, LayoutDashboard, LogOut, Menu, User, X } from '@lucide/vue'
+import { Activity, CodeXml, ExternalLink, LayoutDashboard, LogOut, Mail, Menu, Quote, User, X } from '@lucide/vue'
 import { api } from '../../api/http'
 import { useAuthStore } from '../../stores/auth'
 
@@ -12,7 +12,16 @@ const buka = ref(false) // laci menu di HP dan tablet
 
 const kelompok = [
   { judul: null, butir: [{ ke: '/admin/dashboard', label: 'Dashboard', ikon: LayoutDashboard }] },
-  { judul: 'Beranda', butir: [{ ke: '/admin/beranda/profil', label: 'Profil', ikon: User }] },
+  {
+    judul: 'Beranda',
+    butir: [
+      { ke: '/admin/beranda/profil', label: 'Profil', ikon: User },
+      { ke: '/admin/beranda/kontak', label: 'Kontak', ikon: Mail },
+      { ke: '/admin/beranda/keahlian', label: 'Keahlian', ikon: Activity },
+      { ke: '/admin/beranda/tools', label: 'Alat dan Teknologi', ikon: CodeXml },
+      { ke: '/admin/beranda/publikasi', label: 'Publikasi', ikon: Quote },
+    ],
+  },
 ]
 
 function keluar() {
