@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { Activity, Briefcase, CodeXml, ExternalLink, LayoutDashboard, LogOut, Mail, Menu, Quote, User, X } from '@lucide/vue'
+import { Activity, Briefcase, CodeXml, ExternalLink, LayoutDashboard, LogOut, Mail, Menu, Quote, Settings, User, X } from '@lucide/vue'
 import { api } from '../../api/http'
 import { useAuthStore } from '../../stores/auth'
 
@@ -22,6 +22,10 @@ const kelompok = [
       { ke: '/admin/beranda/project', label: 'Project', ikon: Briefcase },
       { ke: '/admin/beranda/publikasi', label: 'Publikasi', ikon: Quote },
     ],
+  },
+  {
+    judul: 'Situs',
+    butir: [{ ke: '/admin/pengaturan', label: 'Pengaturan', ikon: Settings }],
   },
 ]
 

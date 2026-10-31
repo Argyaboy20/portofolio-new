@@ -79,6 +79,12 @@ const router = createRouter({
           component: () => import('../views/admin/PublikasiAdmin.vue'),
           meta: { title: 'Publikasi Admin' },
         },
+        {
+          path: 'pengaturan',
+          name: 'admin-pengaturan',
+          component: () => import('../views/admin/PengaturanAdmin.vue'),
+          meta: { title: 'Pengaturan Admin' },
+        },
       ],
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
