@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { Activity, Briefcase, CodeXml, ExternalLink, GraduationCap, LayoutDashboard, LogOut, Mail, Menu, Quote, Settings, User, X } from '@lucide/vue'
+import { Activity, Briefcase, CodeXml, ExternalLink, GraduationCap, Heart, LayoutDashboard, LogOut, Mail, Menu, Quote, Settings, User, X } from '@lucide/vue'
 import { api } from '../../api/http'
 import { useAuthStore } from '../../stores/auth'
 
@@ -17,11 +17,11 @@ const kelompok = [
     butir: [
       { ke: '/admin/beranda/profil', label: 'Profil', ikon: User },
       { ke: '/admin/beranda/kontak', label: 'Kontak', ikon: Mail },
-      // TAMBAH baris ini:
       { ke: '/admin/beranda/pendidikan', label: 'Pendidikan', ikon: GraduationCap },
       { ke: '/admin/beranda/keahlian', label: 'Keahlian', ikon: Activity },
       { ke: '/admin/beranda/tools', label: 'Alat dan Teknologi', ikon: CodeXml },
       { ke: '/admin/beranda/project', label: 'Project', ikon: Briefcase },
+      { ke: '/admin/beranda/kartu', label: 'Karir dan Relawan', ikon: Heart },
       { ke: '/admin/beranda/publikasi', label: 'Publikasi', ikon: Quote },
     ],
   },

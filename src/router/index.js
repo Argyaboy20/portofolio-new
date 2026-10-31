@@ -86,6 +86,12 @@ const router = createRouter({
           meta: { title: 'Pendidikan Admin' },
         },
         {
+          path: 'beranda/kartu',
+          name: 'admin-kartu',
+          component: () => import('../views/admin/KartuAdmin.vue'),
+          meta: { title: 'Karir dan Relawan Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
