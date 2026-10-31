@@ -68,6 +68,12 @@ const router = createRouter({
           meta: { title: 'Alat dan Teknologi Admin' },
         },
         {
+          path: 'beranda/project',
+          name: 'admin-project',
+          component: () => import('../views/admin/ProjectAdmin.vue'),
+          meta: { title: 'Project Admin' },
+        },
+        {
           path: 'beranda/publikasi',
           name: 'admin-publikasi',
           component: () => import('../views/admin/PublikasiAdmin.vue'),
