@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-
 const NAMA_SITUS = "Maulana Farras Blog's"
 
 const router = createRouter({
@@ -19,6 +18,12 @@ const router = createRouter({
       name: 'beranda',
       component: () => import('../views/public/BerandaPage.vue'),
     },
+    {
+      path: '/biodata',
+      name: 'biodata',
+      component: () => import('../views/public/BiodataPage.vue'),
+      meta: { title: 'Biodata' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -26,20 +31,27 @@ const router = createRouter({
       component: () => import('../views/admin/LoginAdmin.vue'),
       meta: { title: 'Login Admin' },
     },
-    { path: '/admin', redirect: '/admin/dashboard' },
     {
-      path: '/admin/dashboard',
-      name: 'admin-dashboard',
-      component: () => import('../views/admin/DashboardAdmin.vue'),
-      meta: { requiresAuth: true, title: 'Dashboard Admin' },
+      path: '/admin',
+      component: () => import('../views/admin/AdminLayout.vue'),
+      meta: { requiresAuth: true },
+      redirect: '/admin/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'admin-dashboard',
+          component: () => import('../views/admin/DashboardAdmin.vue'),
+          meta: { title: 'Dashboard Admin' },
+        },
+        {
+          path: 'beranda/profil',
+          name: 'admin-profil',
+          component: () => import('../views/admin/ProfilAdmin.vue'),
+          meta: { title: 'Profil Admin' },
+        },
+      ],
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
-    {
-      path: '/biodata',
-      name: 'biodata',
-      component: () => import('../views/public/BiodataPage.vue'),
-      meta: { title: 'Biodata' },
-    },
   ],
 })
 
