@@ -104,6 +104,12 @@ const router = createRouter({
           meta: { title: 'Galeri Biodata Admin' },
         },
         {
+          path: 'halaman/itsupport',
+          name: 'admin-halaman-itsupport',
+          component: () => import('../views/admin/ItsupportAdmin.vue'),
+          meta: { title: 'IT Support Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
