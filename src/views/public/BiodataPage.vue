@@ -1,9 +1,11 @@
 <script setup>
-import { computed, nextTick, onMounted } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { Code, Dumbbell, Gamepad2, Headphones, MapPin, Quote } from '@lucide/vue'
 import { siQuora, siWhatsapp } from 'simple-icons'
 import NavbarHalaman from '../../components/NavbarHalaman.vue'
+import PenampilFoto from '../../components/PenampilFoto.vue'
+import ModalPenghargaan from '../../components/ModalPenghargaan.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBiodataStore } from '../../stores/biodata'
 import { vMuncul } from '../../utils/muncul'
@@ -12,6 +14,16 @@ const bahasa = useBahasaStore()
 const biodata = useBiodataStore()
 const route = useRoute()
 const data = computed(() => biodata.data)
+const potret = computed(() => (data.value?.cuplikan ?? []).filter((c) => c.gambarUrl))
+const fotoTerbuka = ref(null)
+const bukaFoto = (c) =>
+  (fotoTerbuka.value = { src: c.gambarUrl, alt: bahasa.pilih(c.keteranganId, c.keteranganEn) })
+const penghargaan = computed(() => data.value?.penghargaan?.daftar ?? [])
+// Kalau sampul belum diunggah, pakai gambar penghargaan pertama yang ada
+const sampulPenghargaan = computed(
+  () => data.value?.penghargaan?.sampulUrl ?? penghargaan.value.find((a) => a.gambarUrl)?.gambarUrl ?? null,
+)
+const modalPenghargaan = ref(false)
 const tahun = new Date().getFullYear()
 
 const IKON_HOBI = { code: Code, gamepad: Gamepad2, headphones: Headphones, dumbbell: Dumbbell }
@@ -115,6 +127,47 @@ onMounted(async () => {
           <cite>- {{ data.kutipan.sumber }}</cite>
         </div>
       </section>
+
+      <!-- Penghargaan -->
+      <section v-if="penghargaan.length" class="bagian terang">
+        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Penghargaan', 'Awards') }}</h2>
+        <button v-muncul type="button" class="muncul penghargaan" @click="modalPenghargaan = true">
+          <span class="penghargaan-gambar">
+            <img
+              v-if="sampulPenghargaan"
+              :src="sampulPenghargaan"
+              :alt="bahasa.pilih('Kumpulan penghargaan', 'Awards collection')"
+              loading="lazy"
+            />
+            <span class="penghargaan-jumlah">+{{ penghargaan.length }}</span>
+          </span>
+          <span class="penghargaan-lapisan">
+            <span>{{ bahasa.pilih('Lihat Semua Penghargaan', 'View All Awards') }}</span>
+          </span>
+        </button>
+      </section>
+      <ModalPenghargaan :buka="modalPenghargaan" :daftar="penghargaan" @tutup="modalPenghargaan = false" />
+
+      <!-- Potret Kehidupan -->
+      <section v-if="potret.length" class="bagian putih">
+        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Potret Kehidupan', 'Life Snapshots') }}</h2>
+        <div class="potret-grid">
+          <button
+            v-for="(c, i) in potret"
+            :key="c.id"
+            v-muncul="i + 1"
+            type="button"
+            class="muncul potret"
+            @click="bukaFoto(c)"
+          >
+            <img :src="c.gambarUrl" :alt="bahasa.pilih(c.keteranganId, c.keteranganEn)" loading="lazy" />
+            <span class="potret-label">
+              <span>{{ bahasa.pilih(c.keteranganId, c.keteranganEn) }}</span>
+            </span>
+          </button>
+        </div>
+      </section>
+      <PenampilFoto :src="fotoTerbuka?.src ?? null" :alt="fotoTerbuka?.alt ?? ''" @tutup="fotoTerbuka = null" />
 
       <!-- Kontak -->
       <section id="kontak" class="kontak">
@@ -535,6 +588,122 @@ a.kontak-butir:hover {
   border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
 
+/* --- Potret Kehidupan --- */
+.potret-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.potret {
+  position: relative;
+  height: 220px;
+  padding: 0;
+  overflow: hidden;
+  font: inherit;
+  background: #e8ecf2;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.potret img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+.potret-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(44, 62, 80, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.potret-label span {
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+}
+.potret:hover img {
+  transform: scale(1.1);
+}
+.potret:hover .potret-label,
+.potret:focus-visible .potret-label {
+  opacity: 1;
+}
+
+/* --- Penghargaan --- */
+.penghargaan {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: 250px;
+  padding: 0;
+  margin: 0 auto;
+  overflow: hidden;
+  font: inherit;
+  background: #e8ecf2;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.penghargaan-gambar {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+.penghargaan-gambar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.penghargaan-jumlah {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: #4a90e2;
+  border-radius: 20px;
+}
+.penghargaan-lapisan {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(44, 62, 80, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.penghargaan-lapisan span {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+}
+.penghargaan:hover .penghargaan-gambar {
+  transform: scale(1.05);
+}
+.penghargaan:hover .penghargaan-lapisan,
+.penghargaan:focus-visible .penghargaan-lapisan {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lingkaran {
     animation: none;
@@ -651,6 +820,13 @@ a.kontak-butir:hover {
   .hakcipta {
     font-size: 1rem;
   }
+  .potret-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .penghargaan {
+    height: 300px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -735,6 +911,10 @@ a.kontak-butir:hover {
     min-width: 250px;
     padding: 1.5rem 2.5rem;
     font-size: 1.1rem;
+  }
+  .potret-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
   }
 }
 </style>

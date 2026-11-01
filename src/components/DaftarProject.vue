@@ -166,6 +166,7 @@ onBeforeUnmount(() => {
   transform: translateY(-5px);
 }
 .gambar {
+  position: relative;
   display: grid;
   place-items: center;
   height: 150px;
@@ -176,6 +177,8 @@ onBeforeUnmount(() => {
   background: linear-gradient(135deg, #4a90e2, #50e3c2);
 }
 .gambar img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;

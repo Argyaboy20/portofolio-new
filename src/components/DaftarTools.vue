@@ -1,23 +1,59 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import IkonDinamis from './IkonDinamis.vue'
+import { useBahasaStore } from '../stores/bahasa'
+
+const BATAS_AWAL = 20
 
 const props = defineProps({
   tools: { type: Array, required: true },
   filter: { type: String, default: 'all' },
 })
 
+const bahasa = useBahasaStore()
+const semua = ref(false)
+const tombol = ref(null)
+
 const tampil = computed(() =>
   props.filter === 'all' ? props.tools : props.tools.filter((t) => t.kategori === props.filter),
 )
+// Default hanya 20 tool; sisanya muncul setelah tombol ditekan
+const terlihat = computed(() => (semua.value ? tampil.value : tampil.value.slice(0, BATAS_AWAL)))
+const adaLebih = computed(() => tampil.value.length > BATAS_AWAL)
+
+// Ganti filter: daftar kembali terlipat
+watch(
+  () => props.filter,
+  () => {
+    semua.value = false
+  },
+)
+
+async function ubah() {
+  semua.value = !semua.value
+  if (!semua.value) {
+    // Setelah dilipat, jaga tombol tetap di layar supaya tidak terlempar jauh ke bawah
+    await nextTick()
+    const kurangGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    tombol.value?.scrollIntoView({ block: 'center', behavior: kurangGerak ? 'auto' : 'smooth' })
+  }
+}
 </script>
 
 <template>
-  <div class="wadah">
-    <div v-for="t in tampil" :key="t.id" class="alat">
-      <div class="ikon"><IkonDinamis :nama="t.ikon" ukuran="1.3rem" /></div>
-      <span class="nama">{{ t.nama }}</span>
-      <span class="level">{{ t.level }}</span>
+  <div>
+    <div class="wadah">
+      <div v-for="t in terlihat" :key="t.id" class="alat">
+        <div class="ikon"><IkonDinamis :nama="t.ikon" ukuran="1.3rem" /></div>
+        <span class="nama">{{ t.nama }}</span>
+        <span class="level">{{ t.level }}</span>
+      </div>
+    </div>
+
+    <div v-if="adaLebih" class="lebih">
+      <button ref="tombol" type="button" class="tombol-lebih" :aria-expanded="semua" @click="ubah">
+        {{ semua ? bahasa.pilih('Lihat lebih sedikit', 'See less') : bahasa.pilih('Lihat selengkapnya', 'See more') }}
+      </button>
     </div>
   </div>
 </template>
@@ -75,10 +111,34 @@ const tampil = computed(() =>
   background: rgba(80, 227, 194, 0.1);
   border-radius: 12px;
 }
-
+.lebih {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.tombol-lebih {
+  padding: 0.6rem 1.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a90e2;
+  background: transparent;
+  border: 2px solid #4a90e2;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.tombol-lebih:hover,
+.tombol-lebih:focus-visible {
+  color: #fff;
+  background: #4a90e2;
+}
 @media (prefers-reduced-motion: reduce) {
   .alat,
   .ikon {
+    transition: none;
+  }
+  .tombol-lebih {
     transition: none;
   }
 }

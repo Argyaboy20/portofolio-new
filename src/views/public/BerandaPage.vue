@@ -351,6 +351,7 @@ function tautanKontak(k) {
   align-items: center;
 }
 .foto {
+  position: relative;
   display: grid;
   place-items: center;
   width: 130px;
@@ -367,10 +368,12 @@ function tautanKontak(k) {
   transition: width 0.4s ease, height 0.4s ease, margin 0.4s ease, font-size 0.4s ease;
 }
 .foto img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 70%;
+  object-position: center;
 }
 .nama {
   margin: 0 0 0.1rem;
