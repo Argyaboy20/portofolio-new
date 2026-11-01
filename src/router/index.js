@@ -98,6 +98,12 @@ const router = createRouter({
           meta: { title: 'Biodata Admin' },
         },
         {
+          path: 'galeri-biodata',
+          name: 'admin-galeri-biodata',
+          component: () => import('../views/admin/GaleriBiodataAdmin.vue'),
+          meta: { title: 'Galeri Biodata Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
