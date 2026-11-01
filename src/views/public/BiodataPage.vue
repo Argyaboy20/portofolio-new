@@ -6,6 +6,7 @@ import { siQuora, siWhatsapp } from 'simple-icons'
 import NavbarHalaman from '../../components/NavbarHalaman.vue'
 import PenampilFoto from '../../components/PenampilFoto.vue'
 import ModalPenghargaan from '../../components/ModalPenghargaan.vue'
+import GaleriBerputar from '../../components/GaleriBerputar.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBiodataStore } from '../../stores/biodata'
 import { vMuncul } from '../../utils/muncul'
@@ -24,6 +25,7 @@ const sampulPenghargaan = computed(
   () => data.value?.penghargaan?.sampulUrl ?? penghargaan.value.find((a) => a.gambarUrl)?.gambarUrl ?? null,
 )
 const modalPenghargaan = ref(false)
+const fotoPutar = computed(() => (data.value?.fotoPutar ?? []).filter((f) => f.gambarUrl))
 const tahun = new Date().getFullYear()
 
 const IKON_HOBI = { code: Code, gamepad: Gamepad2, headphones: Headphones, dumbbell: Dumbbell }
@@ -169,6 +171,12 @@ onMounted(async () => {
       </section>
       <PenampilFoto :src="fotoTerbuka?.src ?? null" :alt="fotoTerbuka?.alt ?? ''" @tutup="fotoTerbuka = null" />
 
+      <!-- Galeri Sekilas -->
+      <section v-if="fotoPutar.length" class="bagian terang">
+        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Galeri Sekilas', 'Glance Gallery') }}</h2>
+        <GaleriBerputar :foto="fotoPutar" />
+      </section>
+      
       <!-- Kontak -->
       <section id="kontak" class="kontak">
         <div class="kontak-isi">
