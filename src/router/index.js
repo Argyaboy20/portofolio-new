@@ -92,6 +92,12 @@ const router = createRouter({
           meta: { title: 'Karir dan Relawan Admin' },
         },
         {
+          path: 'biodata',
+          name: 'admin-biodata',
+          component: () => import('../views/admin/BiodataAdmin.vue'),
+          meta: { title: 'Biodata Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
