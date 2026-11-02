@@ -24,6 +24,12 @@ const router = createRouter({
       component: () => import('../views/public/BiodataPage.vue'),
       meta: { title: 'Biodata' },
     },
+    {
+      path: '/itsupport',
+      name: 'itsupport',
+      component: () => import('../views/public/ItsupportPage.vue'),
+      meta: { title: 'IT Support' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
