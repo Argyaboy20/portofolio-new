@@ -1,7 +1,28 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { Activity, BookOpen, Briefcase, CodeXml, ExternalLink, GraduationCap, Heart, Images, LayoutDashboard, LogOut, Mail, Menu, Quote, Server, Settings, User, X } from '@lucide/vue'
+import {
+  Activity,
+  BookOpen,
+  Briefcase,
+  CodeXml,
+  ExternalLink,
+  FileText,
+  GraduationCap,
+  Heart,
+  Images,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Menu,
+  MessageSquareQuote,
+  Quote,
+  Server,
+  Settings,
+  Trophy,
+  User,
+  X,
+} from '@lucide/vue'
 import { api } from '../../api/http'
 import { useAuthStore } from '../../stores/auth'
 
@@ -34,7 +55,12 @@ const kelompok = [
   },
   {
     judul: 'Halaman',
-    butir: [{ ke: '/admin/halaman/itsupport', label: 'IT Support', ikon: Server }],
+    butir: [
+      { ke: '/admin/halaman/itsupport', label: 'IT Support', ikon: Server },
+      { ke: '/admin/halaman/administrasi', label: 'Administrasi', ikon: FileText },
+      { ke: '/admin/halaman/pengalaman', label: 'Pengalaman Kerja', ikon: Trophy },
+      { ke: '/admin/halaman/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
+    ],
   },
   {
     judul: 'Situs',
@@ -51,7 +77,10 @@ function saatTombol(e) {
   if (e.key === 'Escape') buka.value = false
 }
 
-watch(() => route.path, () => (buka.value = false))
+watch(
+  () => route.path,
+  () => (buka.value = false),
+)
 // Kunci html saja (bukan body): mengunci body membuat elemen sticky lepas dari layar
 watch(buka, (nilai) => {
   document.documentElement.style.overflow = nilai ? 'hidden' : ''
@@ -82,7 +111,13 @@ onBeforeUnmount(() => {
       <nav class="menu">
         <template v-for="k in kelompok" :key="k.judul ?? 'utama'">
           <p v-if="k.judul" class="grup">{{ k.judul }}</p>
-          <RouterLink v-for="b in k.butir" :key="b.ke" :to="b.ke" class="butir" active-class="aktif">
+          <RouterLink
+            v-for="b in k.butir"
+            :key="b.ke"
+            :to="b.ke"
+            class="butir"
+            active-class="aktif"
+          >
             <component :is="b.ikon" :size="18" aria-hidden="true" />
             {{ b.label }}
           </RouterLink>
@@ -100,7 +135,13 @@ onBeforeUnmount(() => {
 
     <div class="kanan">
       <header class="bar">
-        <button type="button" class="hamburger" :aria-expanded="buka" aria-label="Buka menu" @click="buka = !buka">
+        <button
+          type="button"
+          class="hamburger"
+          :aria-expanded="buka"
+          aria-label="Buka menu"
+          @click="buka = !buka"
+        >
           <Menu :size="22" aria-hidden="true" />
         </button>
         <span class="email">{{ auth.email }}</span>

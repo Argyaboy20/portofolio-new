@@ -116,6 +116,24 @@ const router = createRouter({
           meta: { title: 'IT Support Admin' },
         },
         {
+          path: 'halaman/administrasi',
+          name: 'admin-halaman-administrasi',
+          component: () => import('../views/admin/AdministrasiAdmin.vue'),
+          meta: { title: 'Administrasi Admin' },
+        },
+        {
+          path: 'halaman/pengalaman',
+          name: 'admin-halaman-pengalaman',
+          component: () => import('../views/admin/PengalamanAdmin.vue'),
+          meta: { title: 'Pengalaman Admin' },
+        },
+        {
+          path: 'halaman/rekomendasi',
+          name: 'admin-halaman-rekomendasi',
+          component: () => import('../views/admin/RekomendasiAdmin.vue'),
+          meta: { title: 'Rekomendasi Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
