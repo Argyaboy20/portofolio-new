@@ -30,6 +30,12 @@ const router = createRouter({
       component: () => import('../views/public/ItsupportPage.vue'),
       meta: { title: 'IT Support' },
     },
+    {
+      path: '/administrasi',
+      name: 'administrasi',
+      component: () => import('../views/public/AdministrasiPage.vue'),
+      meta: { title: 'Administrasi' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -41,7 +47,12 @@ const router = createRouter({
       path: '/admin',
       component: () => import('../views/admin/AdminLayout.vue'),
       meta: { requiresAuth: true },
-      redirect: '/admin/dashboard',
+      // Tamu yang membuka /admin persis dikirim ke halaman publik Administrasi; admin masuk ke dashboard
+      redirect: () => {
+        const auth = useAuthStore()
+        if (!auth.token) auth.restoreSession()
+        return auth.isLoggedIn ? '/admin/dashboard' : '/administrasi'
+      },
       children: [
         {
           path: 'dashboard',
