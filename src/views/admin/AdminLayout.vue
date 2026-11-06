@@ -9,6 +9,7 @@ import {
   ExternalLink,
   FileText,
   GraduationCap,
+  HandHeart,
   Heart,
   Images,
   LayoutDashboard,
@@ -60,6 +61,7 @@ const kelompok = [
       { ke: '/admin/halaman/administrasi', label: 'Administrasi', ikon: FileText },
       { ke: '/admin/halaman/pengalaman', label: 'Pengalaman Kerja', ikon: Trophy },
       { ke: '/admin/halaman/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
+      { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
     ],
   },
   {

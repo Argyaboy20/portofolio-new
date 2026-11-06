@@ -36,6 +36,12 @@ const router = createRouter({
       component: () => import('../views/public/AdministrasiPage.vue'),
       meta: { title: 'Administrasi' },
     },
+    {
+      path: '/relawan',
+      name: 'relawan',
+      component: () => import('../views/public/RelawanPage.vue'),
+      meta: { title: 'Relawan' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -143,6 +149,12 @@ const router = createRouter({
           name: 'admin-halaman-rekomendasi',
           component: () => import('../views/admin/RekomendasiAdmin.vue'),
           meta: { title: 'Rekomendasi Admin' },
+        },
+        {
+          path: 'halaman/relawan',
+          name: 'admin-halaman-relawan',
+          component: () => import('../views/admin/RelawanAdmin.vue'),
+          meta: { title: 'Relawan Admin' },
         },
         {
           path: 'pengaturan',
