@@ -5,6 +5,7 @@ import {
   Activity,
   BookOpen,
   Briefcase,
+  Camera,
   CodeXml,
   ExternalLink,
   FileText,
@@ -62,6 +63,7 @@ const kelompok = [
       { ke: '/admin/halaman/pengalaman', label: 'Pengalaman Kerja', ikon: Trophy },
       { ke: '/admin/halaman/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
       { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
+      { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
     ],
   },
   {

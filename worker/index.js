@@ -2,7 +2,7 @@ const URL_PING = 'https://portofolio-new-api.onrender.com/api/ping'
 
 // Hanya kunci buatan backend: kategori/uuid.webp atau .pdf
 const POLA_MEDIA =
-  /^\/media\/((?:profil|cv|project|penghargaan|cuplikan|putar|sampul|halaman|pengalaman|rekomendasi|relawan)\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:webp|pdf))$/
+  /^\/media\/((?:profil|cv|project|penghargaan|cuplikan|putar|sampul|halaman|pengalaman|rekomendasi|relawan|galeri)\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:webp|pdf))$/
 
 const tidakAda = () =>
   new Response('Not Found', {
