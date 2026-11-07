@@ -48,6 +48,12 @@ const router = createRouter({
       component: () => import('../views/public/GaleriKehidupanPage.vue'),
       meta: { title: 'Galeri Kehidupan' },
     },
+    {
+      path: '/locana',
+      name: 'locana',
+      component: () => import('../views/public/LocanaPage.vue'),
+      meta: { title: 'Locana' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
