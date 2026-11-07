@@ -21,6 +21,7 @@ import {
   Quote,
   Server,
   Settings,
+  Smartphone,
   Trophy,
   User,
   X,
@@ -64,6 +65,7 @@ const kelompok = [
       { ke: '/admin/halaman/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
       { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
       { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
+      { ke: '/admin/halaman/locana', label: 'Locana', ikon: Smartphone },
     ],
   },
   {

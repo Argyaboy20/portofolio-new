@@ -35,6 +35,7 @@ import {
   siClickup,
   siTrello,
   siZoom,
+  siNodedotjs,
 } from 'simple-icons'
 import {
   Mail,
@@ -85,6 +86,7 @@ export const IKON = {
   php: merek(siPhp),
   vue: merek(siVuedotjs),
   express: merek(siExpress),
+  nodejs: merek(siNodedotjs),
   'rest-api': merek(siSwagger),
   postgresql: merek(siPostgresql),
   neon: merek(siNeon),

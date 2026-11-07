@@ -169,6 +169,12 @@ const router = createRouter({
           meta: { title: 'Galeri Kehidupan Admin' },
         },
         {
+          path: 'halaman/locana',
+          name: 'admin-halaman-locana',
+          component: () => import('../views/admin/LocanaAdmin.vue'),
+          meta: { title: 'Locana Admin' },
+        },
+        {
           path: 'pengaturan',
           name: 'admin-pengaturan',
           component: () => import('../views/admin/PengaturanAdmin.vue'),
