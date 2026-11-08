@@ -36,6 +36,7 @@ import {
   siTrello,
   siZoom,
   siNodedotjs,
+  siVite,
 } from 'simple-icons'
 import {
   Mail,
@@ -48,6 +49,8 @@ import {
   Globe,
   Briefcase,
   LayoutGrid,
+  PenLine,
+  Server,
 } from '@lucide/vue'
 
 const merek = (data) => ({ jenis: 'merek', data })
@@ -105,6 +108,10 @@ export const IKON = {
   zoom: merek(siZoom),
   'ms-office': lucide(Briefcase),
   wbspro: lucide(LayoutGrid),
+  laravel: merek(siLaravel),
+  vite: merek(siVite),
+  quill: lucide(PenLine),
+  server: lucide(Server),
 }
 
 // Kunci cadangan bila ikon tidak dikenali

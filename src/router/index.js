@@ -54,6 +54,12 @@ const router = createRouter({
       component: () => import('../views/public/LocanaPage.vue'),
       meta: { title: 'Locana' },
     },
+    {
+      path: '/socialvit',
+      name: 'socialvit',
+      component: () => import('../views/public/SocialvitPage.vue'),
+      meta: { title: 'SocialVit' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -179,6 +185,12 @@ const router = createRouter({
           name: 'admin-halaman-locana',
           component: () => import('../views/admin/LocanaAdmin.vue'),
           meta: { title: 'Locana Admin' },
+        },
+        {
+          path: 'halaman/socialvit',
+          name: 'admin-halaman-socialvit',
+          component: () => import('../views/admin/SocialvitAdmin.vue'),
+          meta: { title: 'SocialVit Admin' },
         },
         {
           path: 'pengaturan',

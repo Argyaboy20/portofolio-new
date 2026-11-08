@@ -28,7 +28,7 @@ const terpilih = ref(null) // fitur yang detailnya sedang dibuka
         :title="bahasa.kode === 'id' ? 'Translate to English' : 'Terjemahkan ke Indonesia'"
         @click="bahasa.tukar()"
       >
-        <span class="ikon-terjemah"><Languages :size="16" aria-hidden="true" /></span>
+        <span class="ikon-terjemah"><Languages :ukuran="16" aria-hidden="true" /></span>
         <span class="teks-terjemah">{{ bahasa.label }}</span>
       </button>
     </header>
@@ -73,7 +73,7 @@ const terpilih = ref(null) // fitur yang detailnya sedang dibuka
           <h2 class="judul-bagian">{{ bahasa.pilih('Alat Pengembangan', 'Development Tools') }}</h2>
           <div class="grid-alat">
             <div v-for="(a, i) in d.alat" :key="i" v-muncul class="alat">
-              <span class="ikon-alat"><IkonDinamis :nama="a.ikon" :size="28" /></span>
+              <span class="ikon-alat"><IkonDinamis :nama="a.ikon" :ukuran="28" /></span>
               <div>
                 <h3 class="nama-alat">{{ a.nama }}</h3>
                 <p class="ket-alat">{{ bahasa.pilih(a.deskripsi.id, a.deskripsi.en) }}</p>
@@ -93,7 +93,7 @@ const terpilih = ref(null) // fitur yang detailnya sedang dibuka
               rel="noopener noreferrer"
               class="tombol web"
             >
-              <Globe :size="18" aria-hidden="true" />
+              <Globe :ukuran="18" aria-hidden="true" />
               {{ bahasa.pilih('Buka Website', 'Launch Website') }}
             </a>
             <a
@@ -103,7 +103,7 @@ const terpilih = ref(null) // fitur yang detailnya sedang dibuka
               rel="noopener noreferrer"
               class="tombol android"
             >
-              <Smartphone :size="18" aria-hidden="true" />
+              <Smartphone :ukuran="18" aria-hidden="true" />
               {{ bahasa.pilih('Unduh Aplikasi', 'Download App') }}
             </a>
           </div>

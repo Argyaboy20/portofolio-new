@@ -24,6 +24,7 @@ import {
   Smartphone,
   Trophy,
   User,
+  Users,
   X,
 } from '@lucide/vue'
 import { api } from '../../api/http'
@@ -66,6 +67,7 @@ const kelompok = [
       { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
       { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
       { ke: '/admin/halaman/locana', label: 'Locana', ikon: Smartphone },
+      { ke: '/admin/halaman/socialvit', label: 'SocialVit', ikon: Users },
     ],
   },
   {
