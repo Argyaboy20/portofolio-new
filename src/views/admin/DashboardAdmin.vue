@@ -47,7 +47,9 @@ h1 {
   background: #fff;
   border: 1px solid #e3e7ee;
   border-radius: 12px;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 .kartu:hover {
   box-shadow: 0 8px 20px rgba(46, 135, 246, 0.12);

@@ -19,6 +19,7 @@ import {
   Menu,
   MessageSquareQuote,
   Network,
+  Leaf,
   Quote,
   Server,
   Settings,
@@ -70,6 +71,7 @@ const kelompok = [
       { ke: '/admin/halaman/locana', label: 'Locana', ikon: Smartphone },
       { ke: '/admin/halaman/socialvit', label: 'SocialVit', ikon: Users },
       { ke: '/admin/halaman/connectpmm', label: 'PMM Connect', ikon: Network },
+      { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
     ],
   },
   {
