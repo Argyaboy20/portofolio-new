@@ -60,6 +60,12 @@ const router = createRouter({
       component: () => import('../views/public/SocialvitPage.vue'),
       meta: { title: 'SocialVit' },
     },
+    {
+      path: '/connectpmm',
+      name: 'connectpmm',
+      component: () => import('../views/public/ConnectpmmPage.vue'),
+      meta: { title: 'PMM Connect' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -191,6 +197,12 @@ const router = createRouter({
           name: 'admin-halaman-socialvit',
           component: () => import('../views/admin/SocialvitAdmin.vue'),
           meta: { title: 'SocialVit Admin' },
+        },
+        {
+          path: 'halaman/connectpmm',
+          name: 'admin-halaman-connectpmm',
+          component: () => import('../views/admin/ConnectpmmAdmin.vue'),
+          meta: { title: 'PMM Connect Admin' },
         },
         {
           path: 'pengaturan',

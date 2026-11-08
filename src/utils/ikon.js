@@ -51,6 +51,8 @@ import {
   LayoutGrid,
   PenLine,
   Server,
+  Brush,
+  FileCode,
 } from '@lucide/vue'
 
 const merek = (data) => ({ jenis: 'merek', data })
@@ -112,6 +114,8 @@ export const IKON = {
   vite: merek(siVite),
   quill: lucide(PenLine),
   server: lucide(Server),
+  css: lucide(FileCode),
+  brush: lucide(Brush),
 }
 
 // Kunci cadangan bila ikon tidak dikenali

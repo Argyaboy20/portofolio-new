@@ -18,6 +18,7 @@ import {
   Mail,
   Menu,
   MessageSquareQuote,
+  Network,
   Quote,
   Server,
   Settings,
@@ -68,6 +69,7 @@ const kelompok = [
       { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
       { ke: '/admin/halaman/locana', label: 'Locana', ikon: Smartphone },
       { ke: '/admin/halaman/socialvit', label: 'SocialVit', ikon: Users },
+      { ke: '/admin/halaman/connectpmm', label: 'PMM Connect', ikon: Network },
     ],
   },
   {
