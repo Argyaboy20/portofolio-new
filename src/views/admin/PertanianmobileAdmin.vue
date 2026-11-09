@@ -281,22 +281,16 @@ async function hapusGambar() {
           <template #default="{ item }">
             <div class="dua-kolom">
               <div class="ruas">
-                <label>Tautan website</label>
-                <input
-                  v-model="konten.tautan.website"
-                  type="text"
-                  maxlength="300"
-                  placeholder="https://..."
-                />
+                <label>Nama</label>
+                <input v-model="item.nama" type="text" maxlength="60" required />
               </div>
               <div class="ruas">
-                <label>Tautan unduh aplikasi Android</label>
-                <input
-                  v-model="konten.tautan.android"
-                  type="text"
-                  maxlength="300"
-                  placeholder="https://..."
-                />
+                <label>Ikon</label>
+                <select v-model="item.ikon">
+                  <option v-for="nama in DAFTAR_IKON_TOOL" :key="nama" :value="nama">
+                    {{ nama }}
+                  </option>
+                </select>
               </div>
             </div>
             <KolomDuaBahasa
@@ -325,14 +319,25 @@ async function hapusGambar() {
           :maks="300"
           :baris="2"
         />
-        <div class="ruas">
-          <label>Tautan website</label>
-          <input
-            v-model="konten.tautan.website"
-            type="text"
-            maxlength="300"
-            placeholder="https://..."
-          />
+        <div class="dua-kolom">
+          <div class="ruas">
+            <label>Tautan website</label>
+            <input
+              v-model="konten.tautan.website"
+              type="text"
+              maxlength="300"
+              placeholder="https://..."
+            />
+          </div>
+          <div class="ruas">
+            <label>Tautan unduh aplikasi Android</label>
+            <input
+              v-model="konten.tautan.android"
+              type="text"
+              maxlength="300"
+              placeholder="https://..."
+            />
+          </div>
         </div>
         <p class="bantuan">
           Tautan harus diawali http:// atau https://. Kalau dikosongkan, tombolnya tidak tampil di

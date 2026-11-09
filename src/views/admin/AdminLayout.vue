@@ -18,6 +18,7 @@ import {
   Mail,
   Menu,
   MessageSquareQuote,
+  Monitor,
   Network,
   Leaf,
   Quote,
@@ -72,6 +73,7 @@ const kelompok = [
       { ke: '/admin/halaman/socialvit', label: 'SocialVit', ikon: Users },
       { ke: '/admin/halaman/connectpmm', label: 'PMM Connect', ikon: Network },
       { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
+      { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
     ],
   },
   {

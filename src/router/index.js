@@ -70,7 +70,13 @@ const router = createRouter({
       path: '/pertanianmobile',
       name: 'pertanianmobile',
       component: () => import('../views/public/PertanianmobilePage.vue'),
-      meta: { title: 'PMM Connect' },
+      meta: { title: 'Pertanian Mobile' },
+    },
+    {
+      path: '/portofolio',
+      name: 'portofolio',
+      component: () => import('../views/public/PortofolioPage.vue'),
+      meta: { title: 'Portofolio' },
     },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
@@ -215,6 +221,12 @@ const router = createRouter({
           name: 'admin-halaman-pertanianmobile',
           component: () => import('../views/admin/PertanianmobileAdmin.vue'),
           meta: { title: 'Pertanian Mobile' },
+        },
+        {
+          path: 'halaman/portofolio',
+          name: 'admin-halaman-portofolio',
+          component: () => import('../views/admin/PortofolioAdmin.vue'),
+          meta: { title: 'Portofolio Admin' },
         },
         {
           path: 'pengaturan',
