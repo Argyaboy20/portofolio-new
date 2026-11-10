@@ -29,6 +29,7 @@ import {
   Trophy,
   User,
   Users,
+  UserRound,
   X,
 } from '@lucide/vue'
 import { api } from '../../api/http'
@@ -76,6 +77,7 @@ const kelompok = [
       { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
       { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
       { ke: '/admin/halaman/aplikasir', label: 'ApliKasir', ikon: ReceiptText },
+      { ke: '/admin/halaman/aboutme', label: 'Tentang Saya', ikon: UserRound },
     ],
   },
   {
