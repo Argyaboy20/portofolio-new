@@ -78,6 +78,12 @@ const router = createRouter({
       component: () => import('../views/public/PortofolioPage.vue'),
       meta: { title: 'Portofolio' },
     },
+    {
+      path: '/aplikasir',
+      name: 'aplikasir',
+      component: () => import('../views/public/AplikasirPage.vue'),
+      meta: { title: 'ApliKasir' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
@@ -227,6 +233,12 @@ const router = createRouter({
           name: 'admin-halaman-portofolio',
           component: () => import('../views/admin/PortofolioAdmin.vue'),
           meta: { title: 'Portofolio Admin' },
+        },
+        {
+          path: 'halaman/aplikasir',
+          name: 'admin-halaman-aplikasir',
+          component: () => import('../views/admin/AplikasirAdmin.vue'),
+          meta: { title: 'ApliKasir Admin' },
         },
         {
           path: 'pengaturan',

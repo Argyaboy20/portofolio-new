@@ -25,6 +25,7 @@ import {
   Server,
   Settings,
   Smartphone,
+  ReceiptText,
   Trophy,
   User,
   Users,
@@ -74,6 +75,7 @@ const kelompok = [
       { ke: '/admin/halaman/connectpmm', label: 'PMM Connect', ikon: Network },
       { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
       { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
+      { ke: '/admin/halaman/aplikasir', label: 'ApliKasir', ikon: ReceiptText },
     ],
   },
   {

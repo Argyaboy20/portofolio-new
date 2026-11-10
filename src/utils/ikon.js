@@ -53,6 +53,9 @@ import {
   Server,
   Brush,
   FileCode,
+  Braces,
+  Library,
+  Lock,
 } from '@lucide/vue'
 
 const merek = (data) => ({ jenis: 'merek', data })
@@ -116,6 +119,9 @@ export const IKON = {
   server: lucide(Server),
   css: lucide(FileCode),
   brush: lucide(Brush),
+  json: lucide(Braces),
+  library: lucide(Library),
+  lock: lucide(Lock),
 }
 
 // Kunci cadangan bila ikon tidak dikenali
