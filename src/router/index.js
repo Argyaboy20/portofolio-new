@@ -90,6 +90,12 @@ const router = createRouter({
       component: () => import('../views/public/AboutmePage.vue'),
       meta: { title: 'Tentang Saya' },
     },
+    {
+      path: '/privacypolicy',
+      name: 'privacypolicy',
+      component: () => import('../views/public/PrivacypolicyPage.vue'),
+      meta: { title: 'Kebijakan Privasi' },
+    },
     // Sengaja tidak ditautkan dari halaman publik mana pun
     {
       path: '/loginadmin',
