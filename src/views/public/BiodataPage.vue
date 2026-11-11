@@ -9,7 +9,7 @@ import ModalPenghargaan from '../../components/ModalPenghargaan.vue'
 import GaleriBerputar from '../../components/GaleriBerputar.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBiodataStore } from '../../stores/biodata'
-import { vMuncul } from '../../utils/muncul'
+import { vMunculDua as vMuncul } from '../../utils/muncul'
 
 const bahasa = useBahasaStore()
 const biodata = useBiodataStore()
@@ -22,7 +22,10 @@ const bukaFoto = (c) =>
 const penghargaan = computed(() => data.value?.penghargaan?.daftar ?? [])
 // Kalau sampul belum diunggah, pakai gambar penghargaan pertama yang ada
 const sampulPenghargaan = computed(
-  () => data.value?.penghargaan?.sampulUrl ?? penghargaan.value.find((a) => a.gambarUrl)?.gambarUrl ?? null,
+  () =>
+    data.value?.penghargaan?.sampulUrl ??
+    penghargaan.value.find((a) => a.gambarUrl)?.gambarUrl ??
+    null,
 )
 const modalPenghargaan = ref(false)
 const fotoPutar = computed(() => (data.value?.fotoPutar ?? []).filter((f) => f.gambarUrl))
@@ -100,10 +103,14 @@ onMounted(async () => {
 
       <!-- Hobi -->
       <section class="bagian putih">
-        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Hobby dan Ketertarikan', 'Hobbies & Interests') }}</h2>
+        <h2 v-muncul class="muncul judul">
+          {{ bahasa.pilih('Hobby dan Ketertarikan', 'Hobbies & Interests') }}
+        </h2>
         <div class="hobi-grid">
           <article v-for="(h, i) in data.hobi" :key="h.id" v-muncul="i + 1" class="muncul hobi">
-            <div class="hobi-ikon"><component :is="ikonHobi(h.ikon)" :size="26" aria-hidden="true" /></div>
+            <div class="hobi-ikon">
+              <component :is="ikonHobi(h.ikon)" :size="26" aria-hidden="true" />
+            </div>
             <h3>{{ bahasa.pilih(h.judulId, h.judulEn) }}</h3>
             <p>{{ bahasa.pilih(h.deskripsiId, h.deskripsiEn) }}</p>
           </article>
@@ -148,11 +155,17 @@ onMounted(async () => {
           </span>
         </button>
       </section>
-      <ModalPenghargaan :buka="modalPenghargaan" :daftar="penghargaan" @tutup="modalPenghargaan = false" />
+      <ModalPenghargaan
+        :buka="modalPenghargaan"
+        :daftar="penghargaan"
+        @tutup="modalPenghargaan = false"
+      />
 
       <!-- Potret Kehidupan -->
       <section v-if="potret.length" class="bagian putih">
-        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Potret Kehidupan', 'Life Snapshots') }}</h2>
+        <h2 v-muncul class="muncul judul">
+          {{ bahasa.pilih('Potret Kehidupan', 'Life Snapshots') }}
+        </h2>
         <div class="potret-grid">
           <button
             v-for="(c, i) in potret"
@@ -162,21 +175,31 @@ onMounted(async () => {
             class="muncul potret"
             @click="bukaFoto(c)"
           >
-            <img :src="c.gambarUrl" :alt="bahasa.pilih(c.keteranganId, c.keteranganEn)" loading="lazy" />
+            <img
+              :src="c.gambarUrl"
+              :alt="bahasa.pilih(c.keteranganId, c.keteranganEn)"
+              loading="lazy"
+            />
             <span class="potret-label">
               <span>{{ bahasa.pilih(c.keteranganId, c.keteranganEn) }}</span>
             </span>
           </button>
         </div>
       </section>
-      <PenampilFoto :src="fotoTerbuka?.src ?? null" :alt="fotoTerbuka?.alt ?? ''" @tutup="fotoTerbuka = null" />
+      <PenampilFoto
+        :src="fotoTerbuka?.src ?? null"
+        :alt="fotoTerbuka?.alt ?? ''"
+        @tutup="fotoTerbuka = null"
+      />
 
       <!-- Galeri Sekilas -->
       <section v-if="fotoPutar.length" class="bagian terang">
-        <h2 v-muncul class="muncul judul">{{ bahasa.pilih('Galeri Sekilas', 'Glance Gallery') }}</h2>
+        <h2 v-muncul class="muncul judul">
+          {{ bahasa.pilih('Galeri Sekilas', 'Glance Gallery') }}
+        </h2>
         <GaleriBerputar :foto="fotoPutar" />
       </section>
-      
+
       <!-- Kontak -->
       <section id="kontak" class="kontak">
         <div class="kontak-isi">
@@ -185,13 +208,31 @@ onMounted(async () => {
           </h2>
           <div v-muncul="1" class="muncul kontak-baris">
             <a :href="tautanWa" class="kontak-butir" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <path :d="siWhatsapp.path" />
               </svg>
               <strong>{{ bahasa.pilih('Hubungi di sini', 'Contact me here') }}</strong>
             </a>
-            <a v-if="quoraAman" :href="data.kontak.quoraUrl" class="kontak-butir" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+            <a
+              v-if="quoraAman"
+              :href="data.kontak.quoraUrl"
+              class="kontak-butir"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <path :d="siQuora.path" />
               </svg>
               <strong>{{ bahasa.pilih('Profil Quora', 'Quora Profile') }}</strong>
@@ -202,7 +243,8 @@ onMounted(async () => {
             </div>
           </div>
           <p class="hakcipta">
-            &copy; {{ tahun }} - {{ bahasa.pilih(data.pengaturan.hakCiptaId, data.pengaturan.hakCiptaEn) }}
+            &copy; {{ tahun }} -
+            {{ bahasa.pilih(data.pengaturan.hakCiptaId, data.pengaturan.hakCiptaEn) }}
           </p>
         </div>
       </section>
@@ -577,7 +619,10 @@ onMounted(async () => {
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   backdrop-filter: blur(10px);
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 a.kontak-butir:hover {
   background: rgba(255, 255, 255, 0.25);

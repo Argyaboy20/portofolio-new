@@ -15,14 +15,21 @@ onMounted(() => {
     tampil.value = true
     return
   }
+  // Dua arah: masuk saat digulir ke bawah, tetap tampil bila lewat ke atas,
+  // hilang halus hanya bila lewat ke bawah (gulir ke atas).
   pengamat = new IntersectionObserver(
     ([entri]) => {
       if (entri.isIntersecting) {
         tampil.value = true
-        pengamat.disconnect()
+      } else if (entri.boundingClientRect.top < 0) {
+        // Di atas layar: sudah dilewati, tetap tampil
+        tampil.value = true
+      } else {
+        // Di bawah layar: keluar halus
+        tampil.value = false
       }
     },
-    { threshold: 0.1, rootMargin: '0px 0px -10px 0px' },
+    { threshold: 0, rootMargin: '0px 0px -12% 0px' },
   )
   pengamat.observe(el.value)
 })
@@ -31,7 +38,7 @@ onBeforeUnmount(() => pengamat?.disconnect())
 
 <template>
   <section :id="id" ref="el" class="bagian" :class="{ masuk: tampil }">
-     <div class="kepala" :class="{ 'ada-aksi': $slots.aksi }">
+    <div class="kepala" :class="{ 'ada-aksi': $slots.aksi }">
       <h2 class="judul">{{ judul }}</h2>
       <slot name="aksi" />
     </div>
@@ -48,7 +55,9 @@ onBeforeUnmount(() => pengamat?.disconnect())
   margin-bottom: 2.5rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
 }
 .bagian.masuk {
   opacity: 1;
