@@ -23,7 +23,7 @@ onBeforeUnmount(() => clearTimeout(timer))
     <div class="kotak">
       <div class="putar"></div>
       <p class="pesan">{{ loading.pesan }}</p>
-      <p v-if="lama" class="catatan">Server sedang bangun dari mode tidur, mohon tunggu sebentar...</p>
+      <p v-if="lama" class="catatan">Mohon tunggu sebentar...</p>
     </div>
   </div>
 </template>
