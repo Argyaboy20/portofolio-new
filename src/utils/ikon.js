@@ -37,6 +37,9 @@ import {
   siZoom,
   siNodedotjs,
   siVite,
+  siFlutter,
+  siDart,
+  siGo,
 } from 'simple-icons'
 import {
   Mail,
@@ -115,6 +118,9 @@ export const IKON = {
   wbspro: lucide(LayoutGrid),
   laravel: merek(siLaravel),
   vite: merek(siVite),
+  flutter: merek(siFlutter),
+  dart: merek(siDart),
+  go: merek(siGo),
   quill: lucide(PenLine),
   server: lucide(Server),
   css: lucide(FileCode),
