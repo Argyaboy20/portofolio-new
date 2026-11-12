@@ -13,6 +13,7 @@ import UrutProject from '../../components/UrutProject.vue'
 import DaftarProject from '../../components/DaftarProject.vue'
 import KartuBeranda from '../../components/KartuBeranda.vue'
 import DaftarPublikasi from '../../components/DaftarPublikasi.vue'
+import DaftarRekomendasi from '../../components/DaftarRekomendasi.vue'
 import { useBahasaStore } from '../../stores/bahasa'
 import { useBerandaStore } from '../../stores/beranda'
 
@@ -79,6 +80,7 @@ const projects = computed(() => {
 })
 const kartu = computed(() => beranda.data?.kartu ?? {})
 const publikasi = computed(() => beranda.data?.publikasi ?? [])
+const rekomendasi = computed(() => beranda.data?.rekomendasi ?? [])
 const pengaturan = computed(() => beranda.data?.pengaturan ?? null)
 const tahun = new Date().getFullYear()
 
@@ -151,7 +153,13 @@ function tautanKontak(k) {
               {{ bahasa.pilih(profil.labelSupportId, profil.labelSupportEn) }}
             </RouterLink>
 
-            <a v-if="profil.cvUrl" class="cv" :href="profil.cvUrl" target="_blank" rel="noopener noreferrer">
+            <a
+              v-if="profil.cvUrl"
+              class="cv"
+              :href="profil.cvUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {{ bahasa.pilih('Lihat CV', 'View CV') }}
             </a>
           </div>
@@ -187,7 +195,11 @@ function tautanKontak(k) {
             <ProfilSingkat :profil="profil" />
           </BagianBeranda>
 
-          <BagianBeranda v-if="pendidikan.length" id="education" :judul="bahasa.pilih('Pendidikan', 'Education')">
+          <BagianBeranda
+            v-if="pendidikan.length"
+            id="education"
+            :judul="bahasa.pilih('Pendidikan', 'Education')"
+          >
             <DaftarPendidikan :daftar="pendidikan" />
           </BagianBeranda>
 
@@ -219,22 +231,44 @@ function tautanKontak(k) {
             <DaftarProject :daftar="projects" />
           </BagianBeranda>
 
-          <BagianBeranda v-if="kartu.karir" id="career" :judul="bahasa.pilih('Karir Kedua', 'Second Career')">
+          <BagianBeranda
+            v-if="kartu.karir"
+            id="career"
+            :judul="bahasa.pilih('Karir Kedua', 'Second Career')"
+          >
             <KartuBeranda jenis="karir" :kartu="kartu.karir" />
           </BagianBeranda>
 
-          <BagianBeranda v-if="kartu.relawan" id="volunteer" :judul="bahasa.pilih('Relawan', 'Volunteer')">
+          <BagianBeranda
+            v-if="kartu.relawan"
+            id="volunteer"
+            :judul="bahasa.pilih('Relawan', 'Volunteer')"
+          >
             <KartuBeranda jenis="relawan" :kartu="kartu.relawan" />
           </BagianBeranda>
 
-          <BagianBeranda v-if="publikasi.length" id="publikasi" :judul="bahasa.pilih('Publikasi', 'Publications')">
+          <BagianBeranda
+            v-if="publikasi.length"
+            id="publikasi"
+            :judul="bahasa.pilih('Publikasi', 'Publications')"
+          >
             <DaftarPublikasi :daftar="publikasi" />
+          </BagianBeranda>
+
+          <BagianBeranda
+            v-if="rekomendasi.length"
+            id="rekomendasi"
+            :judul="bahasa.pilih('Rekomendasi', 'Recommendations')"
+          >
+            <DaftarRekomendasi :daftar="rekomendasi" />
           </BagianBeranda>
         </template>
       </main>
 
       <footer v-if="pengaturan" class="kaki">
-        <p class="hakcipta">&copy; {{ tahun }} - {{ bahasa.pilih(pengaturan.hakCiptaId, pengaturan.hakCiptaEn) }}</p>
+        <p class="hakcipta">
+          &copy; {{ tahun }} - {{ bahasa.pilih(pengaturan.hakCiptaId, pengaturan.hakCiptaEn) }}
+        </p>
         <p class="didukung">{{ pengaturan.footerTeks }}</p>
       </footer>
     </div>
@@ -337,7 +371,9 @@ function tautanKontak(k) {
   color: #fff;
   text-align: center;
   background: #2c3e50;
-  transition: padding 0.4s ease, box-shadow 0.4s ease;
+  transition:
+    padding 0.4s ease,
+    box-shadow 0.4s ease;
 }
 .kepala {
   display: flex;
@@ -365,7 +401,11 @@ function tautanKontak(k) {
   border: 3px solid #50e3c2;
   border-radius: 50%;
   flex-shrink: 0;
-  transition: width 0.4s ease, height 0.4s ease, margin 0.4s ease, font-size 0.4s ease;
+  transition:
+    width 0.4s ease,
+    height 0.4s ease,
+    margin 0.4s ease,
+    font-size 0.4s ease;
 }
 .foto img {
   position: absolute;
@@ -391,7 +431,10 @@ function tautanKontak(k) {
   font-weight: 700;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.4s ease,
+    margin 0.4s ease;
 }
 .support:hover {
   color: #fff;
@@ -413,7 +456,10 @@ function tautanKontak(k) {
   grid-template-rows: 1fr;
   width: 100%;
   margin-top: 0.8rem;
-  transition: grid-template-rows 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+  transition:
+    grid-template-rows 0.4s ease,
+    opacity 0.4s ease,
+    margin-top 0.4s ease;
 }
 .kontak-isi {
   min-height: 0;
@@ -439,7 +485,9 @@ function tautanKontak(k) {
   color: #fff;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  transition: background 0.3s, transform 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.3s;
 }
 .ikon-kontak a:hover {
   background: #4a90e2;
