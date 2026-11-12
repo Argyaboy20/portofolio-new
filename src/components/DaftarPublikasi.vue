@@ -6,7 +6,8 @@ import { useBahasaStore } from '../stores/bahasa'
 const props = defineProps({ daftar: { type: Array, required: true } })
 
 const bahasa = useBahasaStore()
-const tampil = computed(() => props.daftar.slice(0, 4))
+const BATAS_AWAL = 5
+const tampil = computed(() => props.daftar.slice(0, BATAS_AWAL))
 const modalBuka = ref(false)
 const tombolTutup = ref(null)
 let pemicu = null
@@ -59,7 +60,7 @@ onBeforeUnmount(() => {
       <span class="lencana"><ExternalLink :size="14" aria-hidden="true" /></span>
     </a>
 
-    <div v-if="daftar.length > 4" class="selengkapnya">
+    <div v-if="daftar.length > BATAS_AWAL" class="selengkapnya">
       <button type="button" @click="buka($event)">
         {{ bahasa.pilih('Lihat Selengkapnya', 'See More') }}
         <ChevronDown :size="16" aria-hidden="true" />
@@ -125,7 +126,10 @@ onBeforeUnmount(() => {
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 .butir::before {
   content: '';
@@ -203,7 +207,9 @@ onBeforeUnmount(() => {
   border: 1.5px solid #4a90e2;
   border-radius: 20px;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 .selengkapnya button:hover {
   color: #fff;

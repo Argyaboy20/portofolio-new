@@ -1,14 +1,31 @@
 <script setup>
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { X } from '@lucide/vue'
 import { api } from '../api/http'
 import { useBahasaStore } from '../stores/bahasa'
 import { formatDurasi } from '../utils/durasi'
 
-defineProps({ daftar: { type: Array, required: true } })
+const props = defineProps({ daftar: { type: Array, required: true } })
 
 const bahasa = useBahasaStore()
+const BATAS_AWAL = 6
+const semua = ref(false)
+const tombol = ref(null)
+
+// Default hanya 6 project; sisanya muncul setelah tombol ditekan
+const terlihat = computed(() => (semua.value ? props.daftar : props.daftar.slice(0, BATAS_AWAL)))
+const adaLebih = computed(() => props.daftar.length > BATAS_AWAL)
+
+async function ubah() {
+  semua.value = !semua.value
+  if (!semua.value) {
+    // Setelah dilipat, jaga tombol tetap di layar supaya tidak terlempar jauh ke bawah
+    await nextTick()
+    const kurangGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    tombol.value?.scrollIntoView({ block: 'center', behavior: kurangGerak ? 'auto' : 'smooth' })
+  }
+}
 
 const dibuka = ref(null) // project yang sedang diminta source-nya
 const kode = ref('')
@@ -77,31 +94,50 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="grid">
-    <article v-for="p in daftar" :key="p.id" class="kartu">
-      <div class="gambar">
-        <img v-if="p.gambarUrl" :src="p.gambarUrl" :alt="p.judul" loading="lazy" />
-        <span v-else aria-hidden="true">{{ inisial(p.judul) }}</span>
-      </div>
-      <div class="info">
-        <h3>{{ p.judul }}</h3>
-        <span class="durasi">{{ formatDurasi(p.mulai, p.selesai, bahasa.kode) }}</span>
-        <p>{{ bahasa.pilih(p.deskripsiId, p.deskripsiEn) }}</p>
-        <div class="tautan">
-          <RouterLink :to="p.demoPath" class="demo">{{ bahasa.pilih('Lihat Demo', 'View Demo') }}</RouterLink>
-          <button v-if="p.adaSource" type="button" class="source" @click="bukaModal(p, $event)">
-            {{ bahasa.pilih('Source Code', 'Source Code') }}
-          </button>
+  <div>
+    <div class="grid">
+      <article v-for="p in terlihat" :key="p.id" class="kartu">
+        <div class="gambar">
+          <img v-if="p.gambarUrl" :src="p.gambarUrl" :alt="p.judul" loading="lazy" />
+          <span v-else aria-hidden="true">{{ inisial(p.judul) }}</span>
         </div>
-      </div>
-    </article>
+        <div class="info">
+          <h3>{{ p.judul }}</h3>
+          <span class="durasi">{{ formatDurasi(p.mulai, p.selesai, bahasa.kode) }}</span>
+          <p>{{ bahasa.pilih(p.deskripsiId, p.deskripsiEn) }}</p>
+          <div class="tautan">
+            <RouterLink :to="p.demoPath" class="demo">{{
+              bahasa.pilih('Lihat Demo', 'View Demo')
+            }}</RouterLink>
+            <button v-if="p.adaSource" type="button" class="source" @click="bukaModal(p, $event)">
+              {{ bahasa.pilih('Source Code', 'Source Code') }}
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div v-if="adaLebih" class="lebih">
+      <button ref="tombol" type="button" class="tombol-lebih" :aria-expanded="semua" @click="ubah">
+        {{
+          semua
+            ? bahasa.pilih('Lihat lebih sedikit', 'See less')
+            : bahasa.pilih('Lihat selengkapnya', 'See more')
+        }}
+      </button>
+    </div>
 
     <Teleport to="body">
       <div v-if="dibuka" class="lapisan" @click.self="tutup">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="judul-source">
           <header class="modal-kepala">
             <h3 id="judul-source">{{ bahasa.pilih('Akses Source Code', 'Source Code Access') }}</h3>
-            <button type="button" class="tutup" :aria-label="bahasa.pilih('Tutup', 'Close')" @click="tutup">
+            <button
+              type="button"
+              class="tutup"
+              :aria-label="bahasa.pilih('Tutup', 'Close')"
+              @click="tutup"
+            >
               <X :size="20" aria-hidden="true" />
             </button>
           </header>
@@ -112,7 +148,12 @@ onBeforeUnmount(() => {
             <template v-if="!tautanSource">
               <form @submit.prevent="kirim">
                 <label for="kode-source">
-                  {{ bahasa.pilih('Masukkan kode akses untuk melihat source code:', 'Enter the access code to view the source code:') }}
+                  {{
+                    bahasa.pilih(
+                      'Masukkan kode akses untuk melihat source code:',
+                      'Enter the access code to view the source code:',
+                    )
+                  }}
                 </label>
                 <input
                   id="kode-source"
@@ -124,7 +165,9 @@ onBeforeUnmount(() => {
                 />
                 <p v-if="galat" class="galat" role="alert">{{ galat }}</p>
                 <div class="aksi">
-                  <button type="button" class="batal" @click="tutup">{{ bahasa.pilih('Batal', 'Cancel') }}</button>
+                  <button type="button" class="batal" @click="tutup">
+                    {{ bahasa.pilih('Batal', 'Cancel') }}
+                  </button>
                   <button type="submit" class="kirim" :disabled="memeriksa || !kode.trim()">
                     {{ bahasa.pilih('Konfirmasi', 'Confirm') }}
                   </button>
@@ -134,7 +177,13 @@ onBeforeUnmount(() => {
 
             <template v-else>
               <p class="berhasil">{{ bahasa.pilih('Kode benar.', 'Code accepted.') }}</p>
-              <a :href="tautanSource" class="buka" target="_blank" rel="noopener noreferrer" @click="tutup">
+              <a
+                :href="tautanSource"
+                class="buka"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click="tutup"
+              >
                 {{ bahasa.pilih('Buka Source Code', 'Open Source Code') }}
               </a>
             </template>
@@ -152,6 +201,38 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.2rem;
+}
+.lebih {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.tombol-lebih {
+  padding: 0.6rem 1.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a90e2;
+  background: transparent;
+  border: 2px solid #4a90e2;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+.tombol-lebih:hover,
+.tombol-lebih:focus-visible {
+  color: #fff;
+  background: #4a90e2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tombol-lebih {
+    transition: none;
+  }
+  .kartu {
+    transition: none;
+  }
 }
 .kartu {
   display: flex;
@@ -344,12 +425,6 @@ input:focus {
 .berhasil {
   margin: 0 0 1rem;
   color: #1f9d55;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kartu {
-    transition: none;
-  }
 }
 
 @media (min-width: 641px) {
