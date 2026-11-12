@@ -157,6 +157,12 @@ const router = createRouter({
           meta: { title: 'Publikasi Admin' },
         },
         {
+          path: 'beranda/rekomendasi',
+          name: 'admin-rekomendasi-beranda',
+          component: () => import('../views/admin/RekomendasiBerandaAdmin.vue'),
+          meta: { title: 'Rekomendasi Beranda Admin' },
+        },
+        {
           path: 'beranda/pendidikan',
           name: 'admin-pendidikan',
           component: () => import('../views/admin/PendidikanAdmin.vue'),

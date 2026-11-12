@@ -53,6 +53,7 @@ const kelompok = [
       { ke: '/admin/beranda/project', label: 'Project', ikon: Briefcase },
       { ke: '/admin/beranda/kartu', label: 'Karir dan Relawan', ikon: Heart },
       { ke: '/admin/beranda/publikasi', label: 'Publikasi', ikon: Quote },
+      { ke: '/admin/beranda/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
     ],
   },
   {

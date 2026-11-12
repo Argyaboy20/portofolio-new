@@ -43,6 +43,7 @@ const KELOMPOK = [
       ['/admin/beranda/project', 'Project', 'Kartu project dan kode akses', Briefcase],
       ['/admin/beranda/kartu', 'Karir dan Relawan', 'Dua kartu tujuan', Heart],
       ['/admin/beranda/publikasi', 'Publikasi', 'Artikel dan jurnal', Quote],
+      ['/admin/beranda/rekomendasi', 'Rekomendasi', 'Kutipan di Beranda', MessageSquareQuote],
     ],
   },
   {
