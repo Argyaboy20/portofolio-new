@@ -18,6 +18,7 @@ import {
   Network,
   Quote,
   ReceiptText,
+  School,
   Server,
   Settings,
   Smartphone,
@@ -79,6 +80,7 @@ const KELOMPOK = [
       ['/admin/halaman/pertanianmobile', 'Pertanian Mobile', 'Galeri dan alat', Leaf],
       ['/admin/halaman/portofolio', 'Portofolio', 'Galeri UI/UX dan kecepatan', Monitor],
       ['/admin/halaman/aplikasir', 'ApliKasir', 'Galeri dan alat', ReceiptText],
+      ['/admin/halaman/bimbelraya', 'Bimbel Raya', 'Logo, galeri, dan alat', School],
     ],
   },
   {

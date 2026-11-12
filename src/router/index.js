@@ -85,6 +85,12 @@ const router = createRouter({
       meta: { title: 'ApliKasir' },
     },
     {
+      path: '/bimbelraya',
+      name: 'bimbelraya',
+      component: () => import('../views/public/BimbelrayaPage.vue'),
+      meta: { title: 'Bimbel Raya' },
+    },
+    {
       path: '/aboutme',
       name: 'aboutme',
       component: () => import('../views/public/AboutmePage.vue'),
@@ -257,6 +263,12 @@ const router = createRouter({
           name: 'admin-halaman-aplikasir',
           component: () => import('../views/admin/AplikasirAdmin.vue'),
           meta: { title: 'ApliKasir Admin' },
+        },
+        {
+          path: 'halaman/bimbelraya',
+          name: 'admin-halaman-bimbelraya',
+          component: () => import('../views/admin/BimbelrayaAdmin.vue'),
+          meta: { title: 'Bimbel Raya Admin' },
         },
         {
           path: 'halaman/aboutme',

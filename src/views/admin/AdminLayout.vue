@@ -22,6 +22,7 @@ import {
   Network,
   Leaf,
   Quote,
+  School,
   Server,
   Settings,
   Smartphone,
@@ -89,6 +90,7 @@ const kelompok = [
       { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
       { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
       { ke: '/admin/halaman/aplikasir', label: 'ApliKasir', ikon: ReceiptText },
+      { ke: '/admin/halaman/bimbelraya', label: 'Bimbel Raya', ikon: School },
     ],
   },
   {

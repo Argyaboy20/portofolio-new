@@ -1,13 +1,17 @@
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { Minus, Plus, RotateCcw, X } from '@lucide/vue'
+import { ChevronLeft, ChevronRight, Minus, Plus, RotateCcw, X } from '@lucide/vue'
 import { useBahasaStore } from '../stores/bahasa'
 
 const props = defineProps({
   src: { type: String, default: null },
   alt: { type: String, default: '' },
+  // Opsional, untuk galeri: posisi foto, jumlah foto, dan keterangan
+  indeks: { type: Number, default: 0 },
+  total: { type: Number, default: 0 },
+  keterangan: { type: String, default: '' },
 })
-const emit = defineEmits(['tutup'])
+const emit = defineEmits(['tutup', 'sebelumnya', 'berikutnya'])
 const bahasa = useBahasaStore()
 
 /* Zoom ala Google Photos (porting dari situs lama):
@@ -199,7 +203,11 @@ function pasang(c) {
       const jarak = Math.hypot(a.x - b.x, a.y - b.y)
       const pusat = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
       if (pinchStartDistance > 0) {
-        const target = clamp(pinchStartScale * (jarak / pinchStartDistance), MIN_PINCH_SCALE, MAX_SCALE)
+        const target = clamp(
+          pinchStartScale * (jarak / pinchStartDistance),
+          MIN_PINCH_SCALE,
+          MAX_SCALE,
+        )
         zoomAt(pusat.x, pusat.y, target)
         tx += pusat.x - lastPinchCenter.x
         ty += pusat.y - lastPinchCenter.y
@@ -210,7 +218,10 @@ function pasang(c) {
       return
     }
 
-    if (tapStart && Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > TAP_MOVE_TOLERANCE) {
+    if (
+      tapStart &&
+      Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > TAP_MOVE_TOLERANCE
+    ) {
       gestureMoved = true
       tapStart = null
     }
@@ -275,6 +286,8 @@ function pasang(c) {
 
   const tombol = (e) => {
     if (e.key === 'Escape') tutup()
+    else if (props.total > 1 && e.key === 'ArrowLeft') emit('sebelumnya')
+    else if (props.total > 1 && e.key === 'ArrowRight') emit('berikutnya')
   }
 
   c.addEventListener('pointerdown', turun)
@@ -370,15 +383,50 @@ onBeforeUnmount(() => {
           />
         </div>
 
+        <p v-if="total > 1 || keterangan" class="info">
+          <span v-if="total > 1" class="hitung">{{ indeks + 1 }} / {{ total }}</span>
+          <span v-if="keterangan">{{ keterangan }}</span>
+        </p>
+        <template v-if="total > 1">
+          <button
+            type="button"
+            class="nav kiri"
+            :aria-label="bahasa.pilih('Foto sebelumnya', 'Previous photo')"
+            @click.stop="emit('sebelumnya')"
+          >
+            <ChevronLeft :size="22" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="nav kanan"
+            :aria-label="bahasa.pilih('Foto berikutnya', 'Next photo')"
+            @click.stop="emit('berikutnya')"
+          >
+            <ChevronRight :size="22" aria-hidden="true" />
+          </button>
+        </template>
+
         <div class="kontrol">
-          <button type="button" :aria-label="bahasa.pilih('Perbesar', 'Zoom in')" @click="zoomByStep(1.5)">
+          <button
+            type="button"
+            :aria-label="bahasa.pilih('Perbesar', 'Zoom in')"
+            @click="zoomByStep(1.5)"
+          >
             <Plus :size="20" aria-hidden="true" />
           </button>
           <span class="level" aria-live="polite">{{ Math.round(skala * 100) }}%</span>
-          <button type="button" :aria-label="bahasa.pilih('Perkecil', 'Zoom out')" @click="zoomByStep(1 / 1.5)">
+          <button
+            type="button"
+            :aria-label="bahasa.pilih('Perkecil', 'Zoom out')"
+            @click="zoomByStep(1 / 1.5)"
+          >
             <Minus :size="20" aria-hidden="true" />
           </button>
-          <button type="button" :aria-label="bahasa.pilih('Atur ulang zoom', 'Reset zoom')" @click="resetZoom()">
+          <button
+            type="button"
+            :aria-label="bahasa.pilih('Atur ulang zoom', 'Reset zoom')"
+            @click="resetZoom()"
+          >
             <RotateCcw :size="20" aria-hidden="true" />
           </button>
         </div>
@@ -449,7 +497,8 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: calc(60px + env(safe-area-inset-top, 0px)) 12px calc(84px + env(safe-area-inset-bottom, 0px));
+  padding: calc(60px + env(safe-area-inset-top, 0px)) 12px
+    calc(84px + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   touch-action: none;
 }
@@ -515,6 +564,52 @@ onBeforeUnmount(() => {
   color: #fff;
   text-align: center;
 }
+/* Penghitung, keterangan, dan panah antar foto (hanya bila total > 1) */
+.info {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 16px;
+  right: 72px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+.info .hitung {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.nav {
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(20, 20, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+  transform: translateY(-50%);
+}
+.nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.nav.kiri {
+  left: 8px;
+}
+.nav.kanan {
+  right: 8px;
+}
 
 @keyframes pudar {
   from {
@@ -579,6 +674,16 @@ onBeforeUnmount(() => {
   .kontrol button {
     width: 42px;
     height: 42px;
+  }
+  .nav {
+    width: 46px;
+    height: 46px;
+  }
+  .nav.kiri {
+    left: 16px;
+  }
+  .nav.kanan {
+    right: 16px;
   }
 }
 
