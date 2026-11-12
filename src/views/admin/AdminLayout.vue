@@ -67,18 +67,28 @@ const kelompok = [
     judul: 'Halaman',
     butir: [
       { ke: '/admin/halaman/itsupport', label: 'IT Support', ikon: Server },
+      { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
+      { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
+      { ke: '/admin/halaman/aboutme', label: 'Tentang Saya', ikon: UserRound },
+    ],
+  },
+  {
+    judul: 'Karir Kedua',
+    butir: [
       { ke: '/admin/halaman/administrasi', label: 'Administrasi', ikon: FileText },
       { ke: '/admin/halaman/pengalaman', label: 'Pengalaman Kerja', ikon: Trophy },
       { ke: '/admin/halaman/rekomendasi', label: 'Rekomendasi', ikon: MessageSquareQuote },
-      { ke: '/admin/halaman/relawan', label: 'Relawan', ikon: HandHeart },
-      { ke: '/admin/halaman/galeri-kehidupan', label: 'Galeri Kehidupan', ikon: Camera },
+    ],
+  },
+  {
+    judul: 'Project',
+    butir: [
       { ke: '/admin/halaman/locana', label: 'Locana', ikon: Smartphone },
       { ke: '/admin/halaman/socialvit', label: 'SocialVit', ikon: Users },
       { ke: '/admin/halaman/connectpmm', label: 'PMM Connect', ikon: Network },
       { ke: '/admin/halaman/pertanianmobile', label: 'Pertanian Mobile', ikon: Leaf },
       { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
       { ke: '/admin/halaman/aplikasir', label: 'ApliKasir', ikon: ReceiptText },
-      { ke: '/admin/halaman/aboutme', label: 'Tentang Saya', ikon: UserRound },
     ],
   },
   {

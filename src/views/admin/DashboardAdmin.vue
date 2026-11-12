@@ -57,18 +57,28 @@ const KELOMPOK = [
     judul: 'Halaman',
     butir: [
       ['/admin/halaman/itsupport', 'IT Support', 'Studi kasus', Server],
+      ['/admin/halaman/relawan', 'Relawan', 'Pengalaman dan galeri', HandHeart],
+      ['/admin/halaman/galeri-kehidupan', 'Galeri Kehidupan', 'Foto dua tab', Camera],
+      ['/admin/halaman/aboutme', 'Tentang Saya', 'Foto dan paragraf', UserRound],
+    ],
+  },
+  {
+    judul: 'Karir Kedua',
+    butir: [
       ['/admin/halaman/administrasi', 'Administrasi', 'Profil, CV, keterampilan', FileText],
       ['/admin/halaman/pengalaman', 'Pengalaman Kerja', 'Kartu dan foto', Trophy],
       ['/admin/halaman/rekomendasi', 'Rekomendasi', 'Kutipan dan foto', MessageSquareQuote],
-      ['/admin/halaman/relawan', 'Relawan', 'Pengalaman dan galeri', HandHeart],
-      ['/admin/halaman/galeri-kehidupan', 'Galeri Kehidupan', 'Foto dua tab', Camera],
+    ],
+  },
+  {
+    judul: 'Project',
+    butir: [
       ['/admin/halaman/locana', 'Locana', 'Fitur dan alat', Smartphone],
       ['/admin/halaman/socialvit', 'SocialVit', 'Galeri dan tim', Users],
       ['/admin/halaman/connectpmm', 'PMM Connect', 'Galeri dan alat', Network],
       ['/admin/halaman/pertanianmobile', 'Pertanian Mobile', 'Galeri dan alat', Leaf],
       ['/admin/halaman/portofolio', 'Portofolio', 'Galeri UI/UX dan kecepatan', Monitor],
       ['/admin/halaman/aplikasir', 'ApliKasir', 'Galeri dan alat', ReceiptText],
-      ['/admin/halaman/aboutme', 'Tentang Saya', 'Foto dan paragraf', UserRound],
     ],
   },
   {
