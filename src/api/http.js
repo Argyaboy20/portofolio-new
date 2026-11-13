@@ -2,6 +2,8 @@ const BASE = import.meta.env.VITE_API_URL ?? ''
 import { useLoadingStore } from '../stores/loading'
 const TIMEOUT_MS = 75000 // supaya server Render yang baru bangun tidak diputus
 const KUNCI_SESI = 'authSession'
+// Dipakai pembaruan otomatis: selama aktif, panggilan api() yang baru dimulai tidak memunculkan modal loading
+export const modeSenyap = { aktif: false }
 const PESAN_METODE = {
   GET: 'Memuat data...',
   POST: 'Menyimpan data...',
@@ -30,7 +32,7 @@ function ambilToken() {
 }
 
 export async function api(path, { method = 'GET', body, auth = true, loading = true, pesan } = {}) {
-  const modal = loading ? useLoadingStore() : null
+  const modal = loading && !modeSenyap.aktif ? useLoadingStore() : null
   modal?.mulai(pesan ?? PESAN_PATH[path] ?? PESAN_METODE[method] ?? 'Memuat data...')
   const headers = {}
   const isForm = body instanceof FormData

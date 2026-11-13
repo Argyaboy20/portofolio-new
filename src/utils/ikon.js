@@ -40,6 +40,8 @@ import {
   siFlutter,
   siDart,
   siGo,
+  siPinia,
+  siPrisma,
 } from 'simple-icons'
 import {
   Mail,
@@ -121,6 +123,8 @@ export const IKON = {
   flutter: merek(siFlutter),
   dart: merek(siDart),
   go: merek(siGo),
+  pinia: merek(siPinia),
+  prisma: merek(siPrisma),
   quill: lucide(PenLine),
   server: lucide(Server),
   css: lucide(FileCode),
