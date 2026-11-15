@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router'
 import {
   Activity,
   BookOpen,
+  BookOpenCheck,
   Briefcase,
   Camera,
   CodeXml,
@@ -81,6 +82,7 @@ const KELOMPOK = [
       ['/admin/halaman/portofolio', 'Portofolio', 'Galeri UI/UX dan kecepatan', Monitor],
       ['/admin/halaman/aplikasir', 'ApliKasir', 'Galeri dan alat', ReceiptText],
       ['/admin/halaman/bimbelraya', 'Bimbel Raya', 'Logo, galeri, dan alat', School],
+      ['/admin/halaman/gyajokpub', 'GyaJokPub', 'Logo, galeri, dan alat', BookOpenCheck],
     ],
   },
   {

@@ -91,6 +91,12 @@ const router = createRouter({
       meta: { title: 'Bimbel Raya' },
     },
     {
+      path: '/gyajokpub',
+      name: 'gyajokpub',
+      component: () => import('../views/public/GyajokpubPage.vue'),
+      meta: { title: 'GyaJokPub' },
+    },
+    {
       path: '/aboutme',
       name: 'aboutme',
       component: () => import('../views/public/AboutmePage.vue'),
@@ -269,6 +275,12 @@ const router = createRouter({
           name: 'admin-halaman-bimbelraya',
           component: () => import('../views/admin/BimbelrayaAdmin.vue'),
           meta: { title: 'Bimbel Raya Admin' },
+        },
+        {
+          path: 'halaman/gyajokpub',
+          name: 'admin-halaman-gyajokpub',
+          component: () => import('../views/admin/GyajokpubAdmin.vue'),
+          meta: { title: 'GyaJokPub Admin' },
         },
         {
           path: 'halaman/aboutme',

@@ -4,6 +4,7 @@ import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import {
   Activity,
   BookOpen,
+  BookOpenCheck,
   Briefcase,
   Camera,
   CodeXml,
@@ -91,6 +92,7 @@ const kelompok = [
       { ke: '/admin/halaman/portofolio', label: 'Portofolio', ikon: Monitor },
       { ke: '/admin/halaman/aplikasir', label: 'ApliKasir', ikon: ReceiptText },
       { ke: '/admin/halaman/bimbelraya', label: 'Bimbel Raya', ikon: School },
+      { ke: '/admin/halaman/gyajokpub', label: 'GyaJokPub', ikon: BookOpenCheck },
     ],
   },
   {
