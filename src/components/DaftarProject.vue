@@ -38,6 +38,10 @@ let pemicu = null
 function inisial(judul) {
   return judul.trim().slice(0, 1).toUpperCase()
 }
+const labelStatus = (s) =>
+  s === 'client'
+    ? bahasa.pilih('Client Project', 'Client Project')
+    : bahasa.pilih('Personal Project', 'Personal Project')
 
 function bukaModal(project, event) {
   pemicu = event.currentTarget
@@ -102,7 +106,12 @@ onBeforeUnmount(() => {
           <span v-else aria-hidden="true">{{ inisial(p.judul) }}</span>
         </div>
         <div class="info">
-          <h3>{{ p.judul }}</h3>
+          <div class="kepala-kartu">
+            <h3>{{ p.judul }}</h3>
+            <span class="status" :class="p.statusProyek === 'client' ? 'client' : 'personal'">
+              {{ labelStatus(p.statusProyek) }}
+            </span>
+          </div>
           <span class="durasi">{{ formatDurasi(p.mulai, p.selesai, bahasa.kode) }}</span>
           <p>{{ bahasa.pilih(p.deskripsiId, p.deskripsiEn) }}</p>
           <div class="tautan">
@@ -272,9 +281,41 @@ onBeforeUnmount(() => {
   padding: 1rem;
 }
 .info h3 {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 1rem;
   color: #2c3e50;
+}
+.kepala-kartu {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.kepala-kartu h3 {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.status {
+  flex-shrink: 0;
+  padding: 0.15rem 0.6rem;
+  margin-top: 0.1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+.status.client {
+  color: #0b7a66;
+  background: rgba(80, 227, 194, 0.22);
+  border: 1px solid rgba(80, 227, 194, 0.7);
+}
+.status.personal {
+  color: #3a5a86;
+  background: rgba(74, 144, 226, 0.12);
+  border: 1px solid rgba(74, 144, 226, 0.4);
 }
 .durasi {
   display: block;

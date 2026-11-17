@@ -30,6 +30,7 @@ const KOSONG = {
   berjalan: false,
   demoPath: '/',
   sourceUrl: '',
+  statusProyek: 'personal',
 }
 const form = reactive({ ...KOSONG })
 
@@ -59,6 +60,7 @@ async function bukaForm(nilaiMode, sumber) {
     berjalan: nilaiMode !== 'baru' && sumber.selesai === null,
     demoPath: sumber.demoPath ?? '/',
     sourceUrl: sumber.sourceUrl ?? '',
+    statusProyek: sumber.statusProyek ?? 'personal',
   })
   gambarUrl.value = sumber.gambarUrl ?? null
   mode.value = nilaiMode
@@ -87,6 +89,7 @@ async function simpan() {
     selesai: form.berjalan ? null : form.selesai,
     demoPath: form.demoPath,
     sourceUrl: form.sourceUrl,
+    statusProyek: form.statusProyek,
   }
   menyimpan.value = true
   try {
@@ -137,7 +140,9 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
 <template>
   <section>
     <h1>Project</h1>
-    <p class="ket">Kartu di bagian "Project Terbaru" pada Beranda. Urutan tampil ditentukan oleh bulan mulai.</p>
+    <p class="ket">
+      Kartu di bagian "Project Terbaru" pada Beranda. Urutan tampil ditentukan oleh bulan mulai.
+    </p>
 
     <p v-if="galatMuat && !siap" class="galat">
       {{ galatMuat }} <button type="button" @click="muat()">Coba lagi</button>
@@ -146,7 +151,12 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
     <template v-if="siap">
       <div class="atas">
         <span class="hitung">{{ daftar.length }} dari maksimal {{ BATAS }} project</span>
-        <button type="button" class="tambah" :disabled="daftar.length >= BATAS || mode !== null" @click="tambah">
+        <button
+          type="button"
+          class="tambah"
+          :disabled="daftar.length >= BATAS || mode !== null"
+          @click="tambah"
+        >
           <Plus :size="16" aria-hidden="true" /> Tambah
         </button>
       </div>
@@ -161,6 +171,18 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
           <div class="ruas">
             <label for="judul">Judul</label>
             <input id="judul" v-model="form.judul" type="text" maxlength="100" required />
+          </div>
+
+          <div class="ruas">
+            <label>Status project</label>
+            <div class="pilihan">
+              <label class="radio">
+                <input v-model="form.statusProyek" type="radio" value="client" /> Client Project
+              </label>
+              <label class="radio">
+                <input v-model="form.statusProyek" type="radio" value="personal" /> Personal Project
+              </label>
+            </div>
           </div>
 
           <KolomDuaBahasa
@@ -194,22 +216,33 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
                 :disabled="form.berjalan"
                 :required="!form.berjalan"
               />
-              <label class="cek"><input v-model="form.berjalan" type="checkbox" /> Masih berjalan (tampil "sekarang")</label>
+              <label class="cek"
+                ><input v-model="form.berjalan" type="checkbox" /> Masih berjalan (tampil
+                "sekarang")</label
+              >
             </div>
           </div>
 
           <div class="ruas">
             <label for="demo">Alamat halaman demo</label>
             <input id="demo" v-model="form.demoPath" type="text" maxlength="100" required />
-            <p class="bantuan">Halaman di situs ini yang dibuka tombol "Lihat Demo", contoh <code>/locana</code>.</p>
+            <p class="bantuan">
+              Halaman di situs ini yang dibuka tombol "Lihat Demo", contoh <code>/locana</code>.
+            </p>
           </div>
 
           <div class="ruas">
             <label for="source">Tautan source code (boleh kosong)</label>
-            <input id="source" v-model="form.sourceUrl" type="text" maxlength="500" placeholder="https://github.com/..." />
+            <input
+              id="source"
+              v-model="form.sourceUrl"
+              type="text"
+              maxlength="500"
+              placeholder="https://github.com/..."
+            />
             <p class="bantuan">
-              Rahasia: tidak pernah dikirim ke pengunjung. Hanya keluar setelah pengunjung memasukkan kode akses. Kosong =
-              tombol Source Code tidak tampil.
+              Rahasia: tidak pernah dikirim ke pengunjung. Hanya keluar setelah pengunjung
+              memasukkan kode akses. Kosong = tombol Source Code tidak tampil.
             </p>
           </div>
 
@@ -232,7 +265,9 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
             bantuan="JPEG, PNG, atau WebP, maksimal 8 MB. Tampil di bagian atas kartu project."
             @berubah="gambarBerubah"
           />
-          <p v-else class="catatan">Simpan project dulu, lalu bagian unggah gambar akan muncul di sini.</p>
+          <p v-else class="catatan">
+            Simpan project dulu, lalu bagian unggah gambar akan muncul di sini.
+          </p>
         </div>
       </div>
 
@@ -246,11 +281,21 @@ const inisial = (judul) => judul.trim().slice(0, 1).toUpperCase()
           <div class="teks">
             <strong>{{ p.judul }}</strong>
             <span>{{ formatDurasi(p.mulai, p.selesai, 'id') }}</span>
-            <span class="demo">{{ p.demoPath }}{{ p.sourceUrl ? '' : ' - tanpa source code' }}</span>
+            <span class="demo"
+              >{{ p.demoPath }}{{ p.sourceUrl ? '' : ' - tanpa source code' }}</span
+            >
           </div>
           <div class="aksi">
-            <button type="button" aria-label="Ubah" @click="ubah(p)"><Pencil :size="16" aria-hidden="true" /></button>
-            <button type="button" class="bahaya" :disabled="bekerja" aria-label="Hapus" @click="hapus(p)">
+            <button type="button" aria-label="Ubah" @click="ubah(p)">
+              <Pencil :size="16" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              class="bahaya"
+              :disabled="bekerja"
+              aria-label="Hapus"
+              @click="hapus(p)"
+            >
               <Trash2 :size="16" aria-hidden="true" />
             </button>
           </div>
@@ -486,6 +531,21 @@ h1 {
 }
 .aksi .bahaya {
   color: #d63b3b;
+}
+.pilihan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f2d3d;
+  cursor: pointer;
 }
 
 @media (min-width: 641px) {
