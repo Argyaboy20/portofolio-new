@@ -42,6 +42,10 @@ import {
   siGo,
   siPinia,
   siPrisma,
+  siNextdotjs,
+  siTailwindcss,
+  siShadcnui,
+  siDrizzle,
 } from 'simple-icons'
 import {
   Mail,
@@ -125,6 +129,10 @@ export const IKON = {
   go: merek(siGo),
   pinia: merek(siPinia),
   prisma: merek(siPrisma),
+  nextjs: merek(siNextdotjs),
+  tailwind: merek(siTailwindcss),
+  shadcn: merek(siShadcnui),
+  drizzle: merek(siDrizzle),
   quill: lucide(PenLine),
   server: lucide(Server),
   css: lucide(FileCode),
