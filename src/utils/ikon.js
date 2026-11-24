@@ -46,6 +46,11 @@ import {
   siTailwindcss,
   siShadcnui,
   siDrizzle,
+  siSpringboot,
+  siOpenjdk,
+  siLeaflet,
+  siThymeleaf,
+  siFlydotio,
 } from 'simple-icons'
 import {
   Mail,
@@ -133,6 +138,11 @@ export const IKON = {
   tailwind: merek(siTailwindcss),
   shadcn: merek(siShadcnui),
   drizzle: merek(siDrizzle),
+  springboot: merek(siSpringboot),
+  java: merek(siOpenjdk),
+  leaflet: merek(siLeaflet),
+  thymeleaf: merek(siThymeleaf),
+  flyio: merek(siFlydotio),
   quill: lucide(PenLine),
   server: lucide(Server),
   css: lucide(FileCode),
