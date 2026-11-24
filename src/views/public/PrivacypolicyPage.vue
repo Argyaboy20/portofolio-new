@@ -55,8 +55,8 @@ const BARIS_DATA = [
   },
   {
     data: [
-      'Statistik kunjungan (setelah Cloudflare Web Analytics diaktifkan)',
-      'Visit statistics (once Cloudflare Web Analytics is enabled)',
+      'Statistik kunjungan (Cloudflare Web Analytics)',
+      'Visit statistics (Cloudflare Web Analytics)',
     ],
     tujuan: [
       'Alamat halaman, perujuk, jenis browser, sistem operasi, jenis perangkat, dan negara. Untuk tahu halaman mana yang dibaca.',
